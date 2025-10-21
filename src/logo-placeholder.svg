@@ -1,0 +1,25 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="100" r="95" fill="#2e7d32" stroke="#1b5e20" stroke-width="2"/>
+    <path d="M40 120 L80 80 L120 100 L160 60 L180 120 Z" fill="#4caf50"/>
+    <path d="M60 130 Q100 110 140 130" stroke="#ff9800" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <circle cx="70" cy="125" r="4" fill="#ffffff"/>
+    <path d="M70 129 L70 135 M67 132 L73 132" stroke="#ffffff" stroke-width="2"/>
+    <circle cx="100" cy="115" r="4" fill="#ffffff"/>
+    <path d="M100 119 L100 125 M97 122 L103 122" stroke="#ffffff" stroke-width="2"/>
+    <circle cx="130" cy="125" r="4" fill="#ffffff"/>
+    <path d="M130 129 L130 135 M127 132 L133 132" stroke="#ffffff" stroke-width="2"/>
+    <circle cx="160" cy="50" r="15" fill="#ffeb3b"/>
+    <g stroke="#ff9800" stroke-width="2">
+        <line x1="160" y1="35" x2="160" y2="25"/>
+        <line x1="160" y1="65" x2="160" y2="75"/>
+        <line x1="145" y1="50" x2="135" y2="50"/>
+        <line x1="175" y1="50" x2="185" y2="50"/>
+        <line x1="150" y1="40" x2="143" y2="33"/>
+        <line x1="170" y1="40" x2="177" y2="33"/>
+        <line x1="150" y1="60" x2="143" y2="67"/>
+        <line x1="170" y1="60" x2="177" y2="67"/>
+    </g>
+    <rect x="50" y="140" width="6" height="15" fill="#5d4037"/>
+    <path d="M40 140 Q53 110 66 140 Q53 120 40 140" fill="#388e3c"/>
+    <text x="100" y="180" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="14" font-weight="bold">EcoRutas</text>
+</svg>

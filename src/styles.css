@@ -1,0 +1,2015 @@
+/* =========================================================
+   RUTAS ECO-COMUNITARIAS — styles.css
+   Versión mejorada y documentada — Octubre 2025
+   =========================================================
+   Este archivo define el estilo base del sistema web.
+   Incluye:
+   - Variables de tema (modo claro y oscuro)
+   - Estilos globales y de accesibilidad
+   - Cabecera, navegación, tarjetas, botones y pie de página
+   - Diseño responsivo
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   🎨 VARIABLES DE TEMA (modo claro por defecto)
+   --------------------------------------------------------- */
+:root {
+  --bg: #f7f8fb;                 /* Fondo general claro */
+  --card: #ffffff;               /* Fondo de tarjetas y secciones */
+  --text: #17202a;               /* Color de texto principal */
+  --muted: #6b7280;              /* Texto secundario */
+  --primary: #2a7a5f;            /* Verde principal */
+  --accent: #0d6b9a;             /* Azul complementario */
+  --glass: rgba(255, 255, 255, 0.6);
+  --radius: 12px;                /* Bordes redondeados globales */
+  --btn-radius: 10px;
+  --shadow-sm: 0 6px 18px rgba(16, 24, 40, 0.06);
+  --shadow-md: 0 10px 30px rgba(16, 24, 40, 0.08);
+  --gap: 1rem;                   /* Espaciado base */
+  --font-sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --base: 16px;                  /* Tamaño de fuente base */
+}
+
+/* ---------------------------------------------------------
+   🌙 VARIABLES DE MODO OSCURO / ALTO CONTRASTE
+   --------------------------------------------------------- */
+:root[data-contraste="alto"] {
+  --bg: #0e0f10;                 /* Fondo oscuro */
+  --card: #1b1c1e;               /* Tarjetas oscuras */
+  --text: #e4e8eb;               /* Texto claro */
+  --muted: #a1a8af;              /* Texto gris suave */
+  --primary: #3ecf8e;            /* Verde neón suave */
+  --accent: #2bb673;             /* Verde intenso */
+  --glass: rgba(20, 20, 20, 0.7);
+  --shadow-sm: 0 6px 16px rgba(0, 0, 0, 0.55);
+  --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.65);
+}
+:root[data-contraste="alto"] body {
+  background-color: var(--bg); /* sólido, no transparente */
+  color: var(--text);
+}
+
+:root[data-contraste="alto"] .cabecera {
+  background-color: var(--card); /* base sólida */
+  background-image: linear-gradient(180deg, rgba(20,20,20,0.6), rgba(20,20,20,0.45));
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+/* ---------------------------------------------------------
+   🔧 RESETEO GLOBAL Y BASE TIPOGRÁFICA
+   --------------------------------------------------------- */
+* { box-sizing: border-box; }
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--base);
+  line-height: 1.5;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; height: auto; display: block; }
+ul { list-style: none; padding: 0; margin: 0; }
+button { font-family: inherit; cursor: pointer; }
+
+/* Enfoque accesible */
+:focus {
+  outline: 3px solid rgba(42, 122, 95, 0.9); /* verde accesible */
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+
+/* Contenedor general centrado */
+.container {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: 1rem;
+}
+
+/* ---------------------------------------------------------
+   🧭 CABECERA (barra superior)
+   --------------------------------------------------------- */
+.cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--gap);
+  padding: 0.75rem 1rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.55));
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Cabecera en modo oscuro */
+:root[data-contraste="alto"] .cabecera {
+  background: linear-gradient(180deg, rgba(20,20,20,0.85), rgba(15,15,15,0.75));
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Lado izquierdo: logo + nombre */
+.cabecera__izq {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.nombre-sistema {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+/* Lado derecho: botones de acción */
+.cabecera__der {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ---------------------------------------------------------
+   🧩 MENÚ PRINCIPAL (barra horizontal siempre visible)
+   --------------------------------------------------------- */
+.menu-horizontal {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Lista de elementos */
+.menu__lista--horizontal {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Enlaces del menú */
+.menu__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.8rem;
+  border-radius: 9px;
+  font-weight: 600;
+  color: var(--text);
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+/* Hover y foco */
+.menu__item:hover,
+.menu__item:focus {
+  transform: translateY(-2px);
+  background: linear-gradient(180deg, rgba(42,122,95,0.08), rgba(13,107,154,0.05));
+  color: var(--primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Elemento activo */
+.menu__item.activo {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(42,122,95,0.18);
+}
+
+/* ---------------------------------------------------------
+   🔘 BOTONES GENERALES
+   --------------------------------------------------------- */
+.boton {
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--btn-radius);
+  background: var(--card);
+  border: 1px solid rgba(0,0,0,0.07);
+  font-weight: 600;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.boton:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Botón principal (verde-azul) */
+.primario {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  color: #fff;
+  border: 0;
+  box-shadow: 0 8px 24px rgba(13,107,154,0.08);
+}
+
+/* Botón secundario */
+.secundario {
+  background: transparent;
+  border: 1px solid rgba(0,0,0,0.08);
+  color: var(--text);
+}
+
+/* Botones en modo oscuro */
+:root[data-contraste="alto"] .boton {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text);
+}
+:root[data-contraste="alto"] .primario {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  color: #000;
+}
+:root[data-contraste="alto"] .secundario {
+  border-color: rgba(255,255,255,0.2);
+}
+
+/* ---------------------------------------------------------
+   🏞️ CONTENIDO PRINCIPAL (hero y secciones)
+   --------------------------------------------------------- */
+.contenido { 
+  padding: 0; 
+  margin: 0;
+}
+
+/* ---------------------------------------------------------
+   🎯 HERO SECTION MEJORADA
+   --------------------------------------------------------- */
+.hero {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #2a7a5f 0%, #0d6b9a 100%);
+}
+
+.hero__fondo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #2a7a5f 0%, #0d6b9a 100%);
+  z-index: 1;
+}
+
+.hero__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(42, 122, 95, 0.9) 0%, rgba(13, 107, 154, 0.8) 100%);
+  z-index: 2;
+}
+
+.hero__contenido {
+  position: relative;
+  z-index: 3;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.hero__texto {
+  color: white;
+}
+
+.hero__titulo {
+  text-align: center;
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0 0 1.5rem 0;
+  letter-spacing: -0.02em;
+}
+
+.hero__destacado {
+  display: block;
+  background: linear-gradient(45deg, #3ecf8e, #2bb673);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero__descripcion {
+  text-align: center;
+}
+
+.hero__acciones {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.hero__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.hero__btn--primario {
+  display: block;
+  margin: 0 auto;  /* ↑↓ 0 / ←→ auto */
+  width: 200px;    /* Necesita un ancho definido */
+  padding: 10px 20px;
+  background: linear-gradient(45deg, #3ecf8e, #2bb673);
+  color: #000;
+  box-shadow: 0 8px 32px rgba(62, 207, 142, 0.3);
+}
+
+.hero__btn--primario:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(62, 207, 142, 0.4);
+}
+
+.hero__btn--secundario {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.hero__btn--secundario:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+
+/* Modo oscuro para hero */
+:root[data-contraste="alto"] .hero {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+:root[data-contraste="alto"] .hero__overlay {
+  background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(45, 45, 45, 0.8) 100%);
+}
+
+:root[data-contraste="alto"] .busqueda-rapida {
+  background: var(--card);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ---------------------------------------------------------
+   🗺️ TARJETAS DE RUTAS Y NOVEDADES
+   --------------------------------------------------------- */
+.lista-novedades, #lista-rutas {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+/* Tarjeta base */
+.novedad, .tarjeta-ruta {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 0.9rem;
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: var(--shadow-sm);
+}
+
+/* En modo oscuro */
+:root[data-contraste="alto"] .novedad,
+:root[data-contraste="alto"] .tarjeta-ruta {
+  background: var(--card);
+  border-color: rgba(255,255,255,0.08);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Tarjeta de ruta con imagen */
+.tarjeta-ruta {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+.tarjeta-ruta img {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.tarjeta-ruta .info { flex: 1; }
+
+/* Texto secundario */
+.novedad small, .meta {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+/* ---------------------------------------------------------
+   ⚓ PIE DE PÁGINA
+   --------------------------------------------------------- */
+.pie {
+  margin-top: 3rem;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: transparent;
+}
+.pie small { color: var(--muted); }
+
+/* Pie en modo oscuro */
+:root[data-contraste="alto"] .pie {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  background: rgba(15,15,15,0.9);
+}
+
+/* ---------------------------------------------------------
+   ♿ ACCESIBILIDAD
+   --------------------------------------------------------- */
+.tamano-letra--grande {
+  font-size: 1.125rem !important;
+}
+
+/* Enlaces en modo oscuro */
+:root[data-contraste="alto"] a:hover {
+  color: var(--primary);
+}
+
+
+
+
+
+
+/* ---------------------------------------------------------
+   📱 DISEÑO RESPONSIVO
+   --------------------------------------------------------- */
+@media (max-width: 980px) {
+  .hero__titulo {
+    font-size: 2.5rem;
+  }
+  
+  .menu__lista--horizontal { gap: 0.9rem; }
+}
+
+@media (max-width: 800px) {
+  .hero {
+    min-height: 70vh;
+  }
+  
+  .hero__contenido {
+    padding: 1.5rem;
+  }
+  
+  .hero__titulo {
+    text-align: center;
+    font-size: 2rem;
+  }
+  
+  .hero__descripcion {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+  
+  .hero__acciones {
+    justify-content: center;
+    display: flex;
+  }
+  
+  .hero__btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .menu__lista--horizontal {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .cabecera { padding: 0.6rem 0.8rem; }
+}
+
+@media (max-width: 600px) {
+  .hero__titulo {
+    font-size: 1.8rem;
+  }
+  
+  .hero__acciones {
+    justify-content: center;
+    display: flex;
+  }
+  
+  .hero__btn {
+    width: 100%;
+    max-width: 250px;
+  }
+}
+
+/* ---------------------------------------------------------
+   🗺️ ESTILOS ESPECÍFICOS PARA PÁGINA DE RUTAS
+   --------------------------------------------------------- */
+
+/* Hero específico para rutas */
+.hero--rutas {
+  min-height: 50vh;
+  background: linear-gradient(135deg, #2a7a5f 0%, #0d6b9a 100%);
+}
+
+.hero--rutas .hero__titulo {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero--rutas .hero__descripcion {
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Sección de filtros */
+.filtros-seccion {
+  background: var(--card);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+}
+
+.filtros-contenedor {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Barra de búsqueda */
+.busqueda-contenedor {
+  margin-bottom: 2rem;
+}
+
+.busqueda-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.busqueda-icono {
+  position: absolute;
+  left: 1rem;
+  color: var(--muted);
+  z-index: 2;
+}
+
+.busqueda-input input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3rem;
+  border: 2px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  font-size: 1rem;
+  background: var(--card);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.busqueda-input input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(42, 122, 95, 0.1);
+}
+
+.boton--buscar {
+  position: absolute;
+  right: 0.5rem;
+  padding: 0.5rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.boton--buscar:hover {
+  background: var(--accent);
+}
+
+/* Sugerencias de búsqueda */
+.sugerencias-busqueda {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--card);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 0 0 12px 12px;
+  box-shadow: var(--shadow-md);
+  z-index: 100;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.sugerencias-lista {
+  padding: 0.5rem 0;
+}
+
+.sugerencia-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.sugerencia-item:hover {
+  background: rgba(42, 122, 95, 0.05);
+}
+
+.sugerencia-item:last-child {
+  border-bottom: none;
+}
+
+.sugerencia-icono {
+  width: 16px;
+  height: 16px;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.sugerencia-contenido {
+  flex: 1;
+}
+
+.sugerencia-nombre {
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 0.25rem 0;
+}
+
+.sugerencia-descripcion {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.sugerencia-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.sugerencia-badge {
+  padding: 0.125rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.sugerencia-badge--facil {
+  background: rgba(34, 197, 94, 0.1);
+  color: #16a34a;
+}
+
+.sugerencia-badge--media {
+  background: rgba(251, 191, 36, 0.1);
+  color: #d97706;
+}
+
+.sugerencia-badge--dificil {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+/* Sin sugerencias */
+.sin-sugerencias {
+  padding: 1rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Modo oscuro para sugerencias */
+:root[data-contraste="alto"] .sugerencias-busqueda {
+  background: var(--card);
+  border-color: rgba(255,255,255,0.1);
+}
+
+:root[data-contraste="alto"] .sugerencia-item {
+  border-bottom-color: rgba(255,255,255,0.05);
+}
+
+:root[data-contraste="alto"] .sugerencia-item:hover {
+  background: rgba(42, 122, 95, 0.1);
+}
+
+/* Grid de filtros */
+.filtros-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filtro-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filtro-grupo label {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.filtro-select {
+  padding: 0.75rem;
+  border: 2px solid rgba(0,0,0,0.08);
+  border-radius: 8px;
+  background: var(--card);
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease;
+}
+
+.filtro-select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.filtros-acciones {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Sección de rutas */
+.rutas-seccion {
+  padding: 2rem 0;
+}
+
+.rutas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.rutas-header h2 {
+  margin: 0;
+  color: var(--text);
+}
+
+.rutas-contador {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Lista de rutas */
+.lista-rutas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* Tarjetas de ruta mejoradas */
+.tarjeta-ruta {
+  background: var(--card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.tarjeta-ruta:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.tarjeta-ruta__imagen {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.tarjeta-ruta__imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.tarjeta-ruta:hover .tarjeta-ruta__imagen img {
+  transform: scale(1.05);
+}
+
+.tarjeta-ruta__badges {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge--facil {
+  background: rgba(34, 197, 94, 0.1);
+  color: #16a34a;
+}
+
+.badge--media {
+  background: rgba(251, 191, 36, 0.1);
+  color: #d97706;
+}
+
+.badge--dificil {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+.badge--duracion {
+  background: rgba(59, 130, 246, 0.1);
+  color: #2563eb;
+}
+
+.tarjeta-ruta__contenido {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tarjeta-ruta__titulo {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.tarjeta-ruta__descripcion {
+  margin: 0 0 1rem 0;
+  color: var(--muted);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.tarjeta-ruta__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.meta-item svg {
+  flex-shrink: 0;
+}
+
+.tarjeta-ruta__acciones {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.tarjeta-ruta__acciones .boton {
+  flex: 1;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+}
+
+/* Estado de carga */
+.cargando {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: var(--muted);
+}
+
+.cargando-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(42, 122, 95, 0.1);
+  border-top: 3px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Sin resultados */
+.sin-resultados {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+.sin-resultados svg {
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.sin-resultados h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text);
+}
+
+/* Modal de vista previa */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.modal__contenido {
+  position: relative;
+  background: var(--card);
+  border-radius: var(--radius);
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-md);
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.modal__titulo {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.modal__cerrar {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--muted);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.modal__cerrar:hover {
+  background: rgba(0,0,0,0.05);
+  color: var(--text);
+}
+
+.modal__body {
+  padding: 1.5rem;
+}
+
+/* Detalle de ruta en modal */
+.ruta-detalle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.ruta-imagen {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ruta-imagen__img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.ruta-badges {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ruta-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ruta-nombre {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.ruta-descripcion {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.ruta-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Mapa en modal */
+.ruta-mapa {
+  margin-bottom: 2rem;
+}
+
+.ruta-mapa h5 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.mapa-contenedor {
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.mapa-placeholder {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  color: var(--muted);
+  text-align: center;
+}
+
+.mapa-placeholder svg {
+  margin-bottom: 0.5rem;
+  opacity: 0.6;
+}
+
+.mapa-placeholder p {
+  margin: 0 0 0.25rem 0;
+  font-weight: 600;
+}
+
+.mapa-placeholder small {
+  font-size: 0.8rem;
+}
+
+/* Puntos ecológicos */
+.puntos-eco h5 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.puntos-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.punto-eco {
+  background: rgba(42, 122, 95, 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary);
+}
+
+.punto-eco h6 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.punto-eco p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.modal__footer {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.modal__footer .boton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+}
+
+/* Modo oscuro para rutas */
+:root[data-contraste="alto"] .filtros-seccion {
+  background: var(--card);
+  border-bottom-color: rgba(255,255,255,0.1);
+}
+
+:root[data-contraste="alto"] .busqueda-input input {
+  background: var(--card);
+  border-color: rgba(255,255,255,0.1);
+  color: var(--text);
+}
+
+:root[data-contraste="alto"] .busqueda-input input:focus {
+  border-color: var(--primary);
+}
+
+:root[data-contraste="alto"] .filtro-select {
+  background: var(--card);
+  border-color: rgba(255,255,255,0.1);
+  color: var(--text);
+}
+
+:root[data-contraste="alto"] .tarjeta-ruta {
+  background: var(--card);
+  border-color: rgba(255,255,255,0.1);
+}
+
+:root[data-contraste="alto"] .modal__contenido {
+  background: var(--card);
+}
+
+:root[data-contraste="alto"] .modal__header {
+  border-bottom-color: rgba(255,255,255,0.1);
+}
+
+:root[data-contraste="alto"] .modal__footer {
+  border-top-color: rgba(255,255,255,0.1);
+}
+
+:root[data-contraste="alto"] .mapa-contenedor {
+  border-color: rgba(255,255,255,0.1);
+}
+
+:root[data-contraste="alto"] .mapa-placeholder {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+/* Responsive para rutas */
+@media (max-width: 768px) {
+  .filtros-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .lista-rutas {
+    grid-template-columns: 1fr;
+  }
+  
+  .ruta-detalle {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal__footer {
+    flex-direction: column;
+  }
+  
+  .modal__footer .boton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .filtros-contenedor {
+    padding: 0 0.5rem;
+  }
+  
+  .tarjeta-ruta__acciones {
+    flex-direction: column;
+  }
+  
+  .puntos-lista {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------------
+   📰 ESTILOS PARA PÁGINA DE NOVEDADES
+   --------------------------------------------------------- */
+
+/* Hero específico para novedades */
+.hero--novedades {
+  min-height: 50vh;
+  background: linear-gradient(135deg, #2a7a5f 0%, #0d6b9a 100%);
+}
+
+.hero--novedades .hero__titulo {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero--novedades .hero__descripcion {
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Sección de ecoturismo */
+.ecoturismo-seccion {
+  padding: 4rem 0;
+  background: var(--card);
+}
+
+.ecoturismo-contenido {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.ecoturismo-texto h2 {
+  margin: 0 0 1.5rem 0;
+  font-size: 2rem;
+  color: var(--text);
+}
+
+.ecoturismo-descripcion {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+.ecoturismo-beneficios h3 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  color: var(--text);
+}
+
+.beneficios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.beneficio-item {
+  text-align: center;
+  padding: 1.5rem;
+  background: rgba(42, 122, 95, 0.05);
+  border-radius: 12px;
+  transition: transform 0.2s ease;
+}
+
+.beneficio-item:hover {
+  transform: translateY(-4px);
+}
+
+.beneficio-icono {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 1rem;
+  color: var(--primary);
+}
+
+.beneficio-item h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.beneficio-item p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.ecoturismo-imagen {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.ecoturismo-imagen img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+/* Rutas destacadas */
+.rutas-destacadas {
+  padding: 4rem 0;
+  background: var(--bg);
+}
+
+.rutas-destacadas-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.rutas-destacadas-header h2 {
+  margin: 0 0 1rem 0;
+  font-size: 2rem;
+  color: var(--text);
+}
+
+.rutas-destacadas-header p {
+  font-size: 1.1rem;
+  color: var(--muted);
+}
+
+.lista-rutas-destacadas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.ruta-destacada {
+  background: var(--card);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ruta-destacada:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.ruta-destacada__imagen {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.ruta-destacada__imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.ruta-destacada:hover .ruta-destacada__imagen img {
+  transform: scale(1.05);
+}
+
+.ruta-destacada__badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.ruta-destacada__contenido {
+  padding: 1.5rem;
+}
+
+.ruta-destacada__contenido h3 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.25rem;
+  color: var(--text);
+}
+
+.ruta-destacada__contenido p {
+  margin: 0 0 1rem 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.ruta-destacada__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* Noticias */
+.noticias-seccion {
+  padding: 4rem 0;
+  background: var(--card);
+}
+
+.noticias-seccion h2 {
+  text-align: center;
+  margin: 0 0 3rem 0;
+  font-size: 2rem;
+  color: var(--text);
+}
+
+.noticias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.noticia-card {
+  background: var(--card);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.noticia-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.noticia-imagen {
+  height: 200px;
+  overflow: hidden;
+}
+
+.noticia-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.noticia-card:hover .noticia-imagen img {
+  transform: scale(1.05);
+}
+
+.noticia-contenido {
+  padding: 1.5rem;
+}
+
+.noticia-fecha {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.noticia-contenido h3 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.1rem;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.noticia-contenido p {
+  margin: 0 0 1rem 0;
+  color: var(--muted);
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+.noticia-enlace {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.noticia-enlace:hover {
+  color: var(--accent);
+}
+
+/* Modo oscuro para novedades */
+:root[data-contraste="alto"] .ecoturismo-seccion {
+  background: var(--card);
+}
+
+:root[data-contraste="alto"] .beneficio-item {
+  background: rgba(42, 122, 95, 0.1);
+}
+
+:root[data-contraste="alto"] .ruta-destacada {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+:root[data-contraste="alto"] .noticia-card {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Responsive para novedades */
+@media (max-width: 768px) {
+  .ecoturismo-contenido {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .beneficios-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .lista-rutas-destacadas {
+    grid-template-columns: 1fr;
+  }
+  
+  .noticias-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------------
+   🆘 ESTILOS PARA PÁGINA DE AYUDA
+   --------------------------------------------------------- */
+
+/* Hero específico para ayuda */
+.hero--ayuda {
+  min-height: 50vh;
+  background: linear-gradient(135deg, #2a7a5f 0%, #0d6b9a 100%);
+}
+
+.hero--ayuda .hero__titulo {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero--ayuda .hero__descripcion {
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Navegación de ayuda */
+.ayuda-navegacion {
+  background: var(--card);
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding: 1rem 0;
+}
+
+.ayuda-tabs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+}
+
+.ayuda-tab {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.ayuda-tab:hover {
+  background: rgba(42, 122, 95, 0.1);
+  color: var(--text);
+}
+
+.ayuda-tab.activo {
+  background: var(--primary);
+  color: white;
+}
+
+/* Contenido de ayuda */
+.ayuda-contenido {
+  padding: 3rem 0;
+  background: var(--bg);
+}
+
+.ayuda-tab-content {
+  display: none;
+}
+
+.ayuda-tab-content.activo {
+  display: block;
+}
+
+.ayuda-tab-content h2 {
+  margin: 0 0 2rem 0;
+  font-size: 2rem;
+  color: var(--text);
+}
+
+/* FAQ Grid */
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.faq-item {
+  background: var(--card);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.faq-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.faq-item h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  color: var(--text);
+}
+
+.faq-item p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Guías */
+.guia-seccion {
+  margin-bottom: 2.5rem;
+  background: var(--card);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.guia-seccion h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  color: var(--text);
+}
+
+.guia-lista {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.guia-lista li {
+  margin-bottom: 0.5rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Filtros guía */
+.filtros-guia {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.filtro-explicacion {
+  background: var(--card);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.filtro-explicacion h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  color: var(--text);
+}
+
+.filtro-explicacion p {
+  margin: 0 0 1rem 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.filtro-explicacion ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.filtro-explicacion li {
+  margin-bottom: 0.5rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.ejemplo {
+  background: rgba(42, 122, 95, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+/* Accesibilidad info */
+.accesibilidad-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.accesibilidad-item {
+  background: var(--card);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.accesibilidad-item h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  color: var(--text);
+}
+
+.accesibilidad-item p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Contacto */
+.contacto-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.contacto-item {
+  background: var(--card);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.contacto-item h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  color: var(--text);
+}
+
+.contacto-item p {
+  margin: 0 0 0.5rem 0;
+  color: var(--muted);
+}
+
+/* Formulario de contacto */
+.formulario-contacto {
+  margin-top: 1.5rem;
+}
+
+.formulario-grupo {
+  margin-bottom: 1.5rem;
+}
+
+.formulario-grupo label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.formulario-grupo input,
+.formulario-grupo select,
+.formulario-grupo textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.formulario-grupo input:focus,
+.formulario-grupo select:focus,
+.formulario-grupo textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+/* ---------------------------------------------------------
+   ♿ ESTILOS PARA MODAL DE ACCESIBILIDAD
+   --------------------------------------------------------- */
+
+.modal__contenido--accesibilidad {
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.accesibilidad-opciones {
+  display: grid;
+  gap: 2rem;
+}
+
+.accesibilidad-opcion {
+  padding: 1.5rem;
+  background: rgba(42, 122, 95, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(42, 122, 95, 0.1);
+}
+
+.accesibilidad-opcion h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.accesibilidad-opcion p {
+  margin: 0 0 1rem 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.control-texto {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.control-texto button {
+  padding: 0.5rem 1rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.control-texto span {
+  font-weight: 600;
+  color: var(--text);
+  min-width: 60px;
+  text-align: center;
+}
+
+/* ---------------------------------------------------------
+   🌐 ESTILOS PARA SISTEMA DE IDIOMAS
+   --------------------------------------------------------- */
+
+#boton-idioma {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Atributos de accesibilidad */
+[data-alertas="activas"] .notificacion {
+  border: 2px solid #ff6b6b;
+  box-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+}
+
+[data-lectura-voz="activa"] {
+  /* Mejoras para lectores de pantalla */
+  --focus-ring: 3px solid #2a7a5f;
+}
+
+[data-lectura-voz="activa"] *:focus {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Modo oscuro para ayuda */
+:root[data-contraste="alto"] .ayuda-navegacion {
+  background: var(--card);
+  border-bottom-color: rgba(255,255,255,0.1);
+}
+
+:root[data-contraste="alto"] .ayuda-tab {
+  color: var(--muted);
+}
+
+:root[data-contraste="alto"] .ayuda-tab:hover {
+  background: rgba(42, 122, 95, 0.2);
+  color: var(--text);
+}
+
+:root[data-contraste="alto"] .faq-item,
+:root[data-contraste="alto"] .guia-seccion,
+:root[data-contraste="alto"] .filtro-explicacion,
+:root[data-contraste="alto"] .accesibilidad-item,
+:root[data-contraste="alto"] .contacto-item {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+:root[data-contraste="alto"] .accesibilidad-opcion {
+  background: rgba(42, 122, 95, 0.1);
+  border-color: rgba(42, 122, 95, 0.2);
+}
+
+/* Responsive para ayuda */
+@media (max-width: 768px) {
+  .ayuda-tabs {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .ayuda-tab {
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  .faq-grid,
+  .filtros-guia,
+  .accesibilidad-info,
+  .contacto-info {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal__contenido--accesibilidad {
+    max-width: 95vw;
+    margin: 1rem;
+  }
+  
+  .control-texto {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* ---------------------------------------------------------
+   FIN DEL ARCHIVO
+   --------------------------------------------------------- */

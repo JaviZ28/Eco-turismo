@@ -1,0 +1,858 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Rutas — Rutas Eco-Comunitarias</title>
+  <link rel="stylesheet" href="/src/styles.css">
+  
+  <!-- Script anti-flash: aplica tema inmediatamente -->
+  <script>
+    (function() {
+      const contrasteGuardado = localStorage.getItem('contrasteAlto');
+      if (contrasteGuardado === 'true') {
+        document.documentElement.setAttribute('data-contraste', 'alto');
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <header class="cabecera">
+    <div class="cabecera__izq">
+      <img src="/src/logo-placeholder.svg" alt="Logo Plataforma" class="logo">
+      <h1 class="nombre-sistema">Rutas Eco-Comunitarias</h1>
+    </div>
+
+    <nav class="menu-horizontal" aria-label="Menú principal">
+      <ul id="menuItems" class="menu__lista--horizontal">
+        <li><a href="/index.html" class="menu__item" data-i18n="nav.inicio">Inicio</a></li>
+        <li><a href="/pages/rutas.html" class="menu__item activo" data-i18n="nav.rutas">Rutas</a></li>
+        <li><a href="/pages/novedades.html" class="menu__item" data-i18n="nav.novedades">Novedades</a></li>
+        <li><a href="/pages/ayuda.html" class="menu__item" data-i18n="nav.ayuda">Ayuda</a></li>
+        <li><a href="#" class="menu__item" id="abrir-accesibilidad" data-i18n="nav.accesibilidad">Accesibilidad</a></li>
+      </ul>
+    </nav>
+
+    <div class="cabecera__der">
+      <button class="boton" id="boton-idioma">🌐 ES</button>
+      <button class="boton" data-i18n="btn.iniciar-sesion">Iniciar Sesion</button>
+      <button id="boton-accesibilidad" class="boton" data-i18n="btn.modo-oscuro">Modo oscuro</button>
+    </div>
+  </header>
+
+  <main class="contenido">
+    <!-- HERO SECTION PARA RUTAS -->
+    <section class="hero hero--rutas" aria-labelledby="titulo-rutas">
+      <div class="hero__fondo">
+        <div class="hero__overlay"></div>
+      </div>
+      <div class="hero__contenido">
+        <div class="hero__texto">
+          <h1 id="titulo-rutas" class="hero__titulo" data-i18n="rutas.titulo">
+            Descubre Rutas
+            <span class="hero__destacado">Eco-Comunitarias</span>
+          </h1>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN DE FILTROS Y BÚSQUEDA -->
+    <section class="filtros-seccion" aria-label="Filtros y búsqueda">
+      <div class="container">
+        <div class="filtros-contenedor">
+          <!-- Barra de búsqueda -->
+          <div class="busqueda-contenedor">
+            <div class="busqueda-input">
+              <svg class="busqueda-icono" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="M21 21l-4.35-4.35"/>
+              </svg>
+              <input type="text" id="busqueda-rutas" placeholder="Buscar rutas por nombre, ubicación o descripción..." aria-label="Buscar rutas" autocomplete="off" data-i18n="rutas.buscar.placeholder">
+              <button class="boton boton--buscar" aria-label="Buscar">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+            <!-- Sugerencias de búsqueda -->
+            <div id="sugerencias-busqueda" class="sugerencias-busqueda" style="display: none;">
+              <div class="sugerencias-lista" id="lista-sugerencias">
+                <!-- Se llenará dinámicamente -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Filtros -->
+          <div class="filtros-grid">
+            <div class="filtro-grupo">
+              <label for="filtro-dificultad" data-i18n="rutas.filtros.dificultad">Dificultad</label>
+              <select id="filtro-dificultad" class="filtro-select">
+                <option value="" data-i18n="rutas.filtros.todas-dificultades">Todas las dificultades</option>
+                <option value="facil" data-i18n="rutas.dificultad.facil">Fácil</option>
+                <option value="media" data-i18n="rutas.dificultad.media">Media</option>
+                <option value="dificil" data-i18n="rutas.dificultad.dificil">Difícil</option>
+              </select>
+            </div>
+
+            <div class="filtro-grupo">
+              <label for="filtro-duracion" data-i18n="rutas.filtros.duracion">Duración</label>
+              <select id="filtro-duracion" class="filtro-select">
+                <option value="" data-i18n="rutas.filtros.cualquier-duracion">Cualquier duración</option>
+                <option value="corta" data-i18n="rutas.duracion.corta">Menos de 1 hora</option>
+                <option value="media" data-i18n="rutas.duracion.media">1-3 horas</option>
+                <option value="larga" data-i18n="rutas.duracion.larga">Más de 3 horas</option>
+              </select>
+            </div>
+
+            <div class="filtro-grupo">
+              <label for="filtro-tipo" data-i18n="rutas.filtros.tipo">Tipo de ruta</label>
+              <select id="filtro-tipo" class="filtro-select">
+                <option value="" data-i18n="rutas.filtros.todos-tipos">Todos los tipos</option>
+                <option value="senderismo" data-i18n="rutas.tipo.senderismo">Senderismo</option>
+                <option value="ciclismo" data-i18n="rutas.tipo.ciclismo">Ciclismo</option>
+                <option value="observacion" data-i18n="rutas.tipo.observacion">Observación de aves</option>
+                <option value="fotografia" data-i18n="rutas.tipo.fotografia">Fotografía</option>
+              </select>
+            </div>
+
+            <div class="filtro-grupo">
+              <label for="filtro-distancia" data-i18n="rutas.filtros.distancia">Distancia</label>
+              <select id="filtro-distancia" class="filtro-select">
+                <option value="" data-i18n="rutas.filtros.cualquier-distancia">Cualquier distancia</option>
+                <option value="corta" data-i18n="rutas.distancia.corta">Menos de 2 km</option>
+                <option value="media" data-i18n="rutas.distancia.media">2-5 km</option>
+                <option value="larga" data-i18n="rutas.distancia.larga">Más de 5 km</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Botones de acción -->
+          <div class="filtros-acciones">
+            <button class="boton secundario" id="limpiar-filtros" data-i18n="rutas.filtros.limpiar">Limpiar filtros</button>
+            <button class="boton primario" id="aplicar-filtros" data-i18n="rutas.filtros.aplicar">Aplicar filtros</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN DE RUTAS -->
+    <section class="rutas-seccion" aria-label="Lista de rutas">
+      <div class="container">
+        <div class="rutas-header">
+    <h2 data-i18n="rutas.disponibles">Rutas disponibles</h2>
+          <div class="rutas-contador">
+            <span id="contador-rutas" data-i18n="rutas.contador">0 rutas encontradas</span>
+          </div>
+        </div>
+
+        <div id="lista-rutas" class="lista-rutas">
+          <div class="cargando">
+            <div class="cargando-spinner"></div>
+      <p data-i18n="estado.cargando">Cargando rutas...</p>
+    </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <small>© <span id="ano"></span> <span data-i18n="footer.derechos">Rutas Eco-Comunitarias</span></small>
+  </footer>
+    <!-- Modal de Accesibilidad -->
+    <div id="modal-accesibilidad" class="modal" role="dialog" aria-labelledby="modal-accesibilidad-titulo" aria-hidden="true">
+      <div class="modal__overlay"></div>
+      <div class="modal__contenido modal__contenido--accesibilidad">
+        <div class="modal__header">
+          <h3 id="modal-accesibilidad-titulo" class="modal__titulo" data-i18n="accesibilidad.titulo">Configuración de Accesibilidad</h3>
+          <button class="modal__cerrar" id="modal-accesibilidad-cerrar" aria-label="Cerrar modal" data-i18n="btn.cerrar">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="modal__body">
+          <div class="accesibilidad-opciones">
+            <div class="accesibilidad-opcion">
+              <h4 data-i18n="accesibilidad.modo-oscuro">🌙 Modo Oscuro</h4>
+              <p data-i18n="accesibilidad.modo-oscuro.desc">Reduce la fatiga visual en ambientes con poca luz</p>
+              <button class="boton" id="toggle-modo-oscuro" data-i18n="accesibilidad.modo-oscuro">Activar Modo Oscuro</button>
+            </div>
+  
+            <div class="accesibilidad-opcion">
+              <h4 data-i18n="accesibilidad.texto-ampliado">🔍 Texto Ampliado</h4>
+              <p data-i18n="accesibilidad.texto-ampliado.desc">Amplía el tamaño del texto para mejor legibilidad</p>
+              <div class="control-texto">
+                <button class="boton" id="reducir-texto">A-</button>
+                <span id="tamaño-texto">100%</span>
+                <button class="boton" id="aumentar-texto">A+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- MODAL DE VISTA PREVIA -->
+  <div id="modal-ruta" class="modal" role="dialog" aria-labelledby="modal-titulo" aria-hidden="true">
+    <div class="modal__overlay"></div>
+    <div class="modal__contenido">
+      <div class="modal__header">
+        <h3 id="modal-titulo" class="modal__titulo" data-i18n="modal.titulo">Vista Previa de Ruta</h3>
+        <button class="modal__cerrar" id="modal-cerrar-x" aria-label="Cerrar modal" data-i18n="btn.cerrar">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="modal__body">
+        <div class="ruta-detalle">
+          <div class="ruta-imagen">
+            <img id="modal-imagen" src="" alt="" class="ruta-imagen__img">
+            <div class="ruta-badges">
+              <span id="modal-dificultad" class="badge badge--dificultad"></span>
+              <span id="modal-duracion" class="badge badge--duracion"></span>
+            </div>
+          </div>
+          
+          <div class="ruta-info">
+            <h4 id="modal-nombre" class="ruta-nombre"></h4>
+            <p id="modal-descripcion" class="ruta-descripcion"></p>
+            
+            <div class="ruta-meta">
+              <div class="meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span id="modal-ubicacion"></span>
+              </div>
+              <div class="meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 3h18v18H3zM9 9h6v6H9z"/>
+                </svg>
+                <span id="modal-distancia"></span>
+              </div>
+              <div class="meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <span id="modal-puntuacion"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Mapa interactivo -->
+        <div class="ruta-mapa">
+          <h5 data-i18n="modal.mapa">Mapa de la ruta</h5>
+          <div id="mapa-ruta" class="mapa-contenedor">
+            <div class="mapa-placeholder">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              <p data-i18n="modal.mapa">Mapa interactivo</p>
+              <small data-i18n="modal.mapa.desc">Puntos de interés marcados</small>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Puntos ecológicos -->
+        <div class="puntos-eco">
+          <h5 data-i18n="modal.puntos-eco">Puntos ecológicos destacados</h5>
+          <div id="puntos-lista" class="puntos-lista">
+            <!-- Se llenará dinámicamente -->
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal__footer">
+        <button class="boton secundario" id="cerrar-modal" data-i18n="btn.cerrar">Cerrar</button>
+        <button class="boton primario" id="guardar-ruta" data-i18n="modal.guardar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+          </svg>
+          Guardar ruta
+        </button>
+        <button class="boton primario" id="iniciar-ruta" data-i18n="modal.iniciar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          Iniciar ruta
+        </button>
+        <button class="boton secundario" id="compartir-ruta" data-i18n="modal.compartir">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+            <polyline points="16,6 12,2 8,6"/>
+            <line x1="12" y1="2" x2="12" y2="15"/>
+          </svg>
+          Compartir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { inicializarTema, actualizarAnio, inicializarMenu } from "/src/scripts/comunes.ts";
+    import { inicializarIdiomas, inicializarAccesibilidad, traducirTextoDinamico } from "/src/scripts/idiomas.js";
+    import { 
+      obtenerRutasFiltradas, 
+      obtenerRutaCompleta, 
+      obtenerSugerencias,
+      convertirRutaFormato,
+      manejarErrorSupabase 
+    } from "/src/services/supabase.js";
+
+    // Estado global de la aplicación
+    let rutasFiltradas = [];
+    let todasLasRutas = [];
+    let cargando = false;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      inicializarTema();
+      actualizarAnio();
+      inicializarMenu();
+      inicializarIdiomas();
+      inicializarAccesibilidad();
+      
+      inicializarRutas();
+      inicializarFiltros();
+      inicializarModal();
+    });
+
+    /**
+     * 🚀 Inicializa la carga de rutas desde Supabase
+     * Esta función se ejecuta al cargar la página y obtiene todas las rutas activas
+     */
+    async function inicializarRutas() {
+      const lista = document.getElementById("lista-rutas");
+      const contador = document.getElementById("contador-rutas");
+      
+      if (!lista) return;
+
+      // Mostrar estado de carga
+      mostrarEstadoCarga();
+
+      try {
+        // Obtener rutas desde Supabase
+        const { data: rutasDB, error } = await obtenerRutasFiltradas();
+        
+        if (error) {
+          console.error('Error al cargar rutas:', error);
+          mostrarError('Error al cargar las rutas. Por favor, intenta de nuevo.');
+          return;
+        }
+
+        // Convertir datos al formato del frontend
+        todasLasRutas = rutasDB.map(convertirRutaFormato);
+        rutasFiltradas = [...todasLasRutas];
+
+        // Renderizar rutas y actualizar contador
+        renderizarRutas();
+        actualizarContador();
+
+      } catch (error) {
+        console.error('Error inesperado al cargar rutas:', error);
+        mostrarError('Error inesperado. Por favor, recarga la página.');
+      }
+    }
+
+    /**
+     * 📊 Muestra el estado de carga en la lista de rutas
+     */
+    function mostrarEstadoCarga() {
+      const lista = document.getElementById("lista-rutas");
+      if (lista) {
+        // Usar traducción dinámica para el texto de carga
+        const textoCargando = traducirTextoDinamico('db.rutas.cargando', 'Cargando rutas desde la base de datos...');
+        lista.innerHTML = `
+          <div class="cargando">
+            <div class="cargando-spinner"></div>
+            <p>${textoCargando}</p>
+          </div>
+        `;
+      }
+    }
+
+    /**
+     * ❌ Muestra un mensaje de error en la lista de rutas
+     * @param {string} mensaje - Mensaje de error a mostrar
+     */
+    function mostrarError(mensaje) {
+      const lista = document.getElementById("lista-rutas");
+      if (lista) {
+        // Usar traducciones dinámicas para los mensajes de error
+        const tituloError = traducirTextoDinamico('db.rutas.error', 'Error al cargar rutas');
+        const textoReintentar = traducirTextoDinamico('db.rutas.reintentar', 'Reintentar');
+        lista.innerHTML = `
+          <div class="sin-resultados">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="15" y1="9" x2="9" y2="15"/>
+              <line x1="9" y1="9" x2="15" y2="15"/>
+            </svg>
+            <h3>${tituloError}</h3>
+            <p>${mensaje}</p>
+            <button class="boton primario" onclick="location.reload()">${textoReintentar}</button>
+          </div>
+        `;
+      }
+    }
+
+    function renderizarRutas() {
+      const lista = document.getElementById("lista-rutas");
+      if (!lista) return;
+
+      if (rutasFiltradas.length === 0) {
+        lista.innerHTML = `
+          <div class="sin-resultados">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="M21 21l-4.35-4.35"/>
+            </svg>
+            <h3>No se encontraron rutas</h3>
+            <p>Intenta ajustar los filtros o términos de búsqueda</p>
+          </div>
+        `;
+        return;
+      }
+
+      lista.innerHTML = rutasFiltradas.map(ruta => `
+        <div class="tarjeta-ruta" data-ruta-id="${ruta.id}">
+          <div class="tarjeta-ruta__imagen">
+            <img src="${ruta.imagen}" alt="${ruta.nombre}" loading="lazy">
+            <div class="tarjeta-ruta__badges">
+              <span class="badge badge--${ruta.dificultad}">${getDificultadTexto(ruta.dificultad)}</span>
+              <span class="badge badge--duracion">${ruta.duracion}</span>
+            </div>
+          </div>
+          <div class="tarjeta-ruta__contenido">
+            <h3 class="tarjeta-ruta__titulo">${ruta.nombre}</h3>
+            <p class="tarjeta-ruta__descripcion">${ruta.descripcion}</p>
+            <div class="tarjeta-ruta__meta">
+              <div class="meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span>${ruta.ubicacion}</span>
+              </div>
+              <div class="meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 3h18v18H3zM9 9h6v6H9z"/>
+                </svg>
+                <span>${ruta.distancia}</span>
+              </div>
+              <div class="meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <span>${ruta.puntuacion}/5</span>
+              </div>
+            </div>
+            <div class="tarjeta-ruta__acciones">
+              <button class="boton secundario boton--vista-previa" data-ruta-id="${ruta.id}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                Vista previa
+              </button>
+              <button class="boton primario boton--iniciar" data-ruta-id="${ruta.id}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+                Iniciar
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      // Agregar event listeners a los botones
+      document.querySelectorAll('.boton--vista-previa').forEach(boton => {
+        boton.addEventListener('click', (e) => {
+          const rutaId = parseInt(e.target.closest('[data-ruta-id]').dataset.rutaId);
+          mostrarModalRuta(rutaId);
+        });
+      });
+
+      document.querySelectorAll('.boton--iniciar').forEach(boton => {
+        boton.addEventListener('click', (e) => {
+          const rutaId = parseInt(e.target.closest('[data-ruta-id]').dataset.rutaId);
+          iniciarRuta(rutaId);
+        });
+      });
+    }
+
+    function getDificultadTexto(dificultad) {
+      const dificultades = {
+        'facil': 'Fácil',
+        'media': 'Media',
+        'dificil': 'Difícil'
+      };
+      return dificultades[dificultad] || dificultad;
+    }
+
+    function actualizarContador() {
+      const contador = document.getElementById("contador-rutas");
+      if (contador) {
+        contador.textContent = `${rutasFiltradas.length} ruta${rutasFiltradas.length !== 1 ? 's' : ''} encontrada${rutasFiltradas.length !== 1 ? 's' : ''}`;
+      }
+    }
+
+    function inicializarFiltros() {
+      const busqueda = document.getElementById('busqueda-rutas');
+      const filtros = document.querySelectorAll('.filtro-select');
+      const aplicarBtn = document.getElementById('aplicar-filtros');
+      const limpiarBtn = document.getElementById('limpiar-filtros');
+
+      // Búsqueda con sugerencias
+      if (busqueda) {
+        let timeoutId;
+        
+        busqueda.addEventListener('input', (e) => {
+          const valor = e.target.value.trim();
+          
+          // Limpiar timeout anterior
+          clearTimeout(timeoutId);
+          
+          if (valor.length >= 2) {
+            // Mostrar sugerencias después de 300ms
+            timeoutId = setTimeout(() => {
+              mostrarSugerencias(valor);
+            }, 300);
+          } else {
+            ocultarSugerencias();
+          }
+        });
+
+        // Ocultar sugerencias al hacer clic fuera
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('.busqueda-contenedor')) {
+            ocultarSugerencias();
+          }
+        });
+
+        // Ocultar sugerencias al presionar Escape
+        busqueda.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            ocultarSugerencias();
+          }
+        });
+      }
+
+      // Filtros
+      filtros.forEach(filtro => {
+        filtro.addEventListener('change', () => {
+          aplicarFiltros();
+        });
+      });
+
+      // Botones
+      if (aplicarBtn) {
+        aplicarBtn.addEventListener('click', aplicarFiltros);
+      }
+
+      if (limpiarBtn) {
+        limpiarBtn.addEventListener('click', limpiarFiltros);
+      }
+    }
+
+    /**
+     * 🔍 Muestra sugerencias de búsqueda en tiempo real
+     * @param {string} termino - Término de búsqueda
+     */
+    async function mostrarSugerencias(termino) {
+      try {
+        // Obtener sugerencias desde Supabase
+        const { data: sugerencias, error } = await obtenerSugerencias(termino);
+        
+        if (error) {
+          console.error('Error al obtener sugerencias:', error);
+          return;
+        }
+
+        const contenedorSugerencias = document.getElementById('sugerencias-busqueda');
+        const listaSugerencias = document.getElementById('lista-sugerencias');
+
+        if (sugerencias && sugerencias.length > 0) {
+          // Mostrar sugerencias
+          listaSugerencias.innerHTML = sugerencias.map(ruta => `
+            <div class="sugerencia-item" data-ruta-id="${ruta.id}">
+              <svg class="sugerencia-icono" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              <div class="sugerencia-contenido">
+                <div class="sugerencia-nombre">${ruta.nombre}</div>
+                <div class="sugerencia-descripcion">${ruta.ubicacion}</div>
+                <div class="sugerencia-meta">
+                  <span class="sugerencia-badge sugerencia-badge--${ruta.dificultad}">${getDificultadTexto(ruta.dificultad)}</span>
+                  <span>${ruta.duracion_horas}h</span>
+                  <span>${ruta.distancia_km}km</span>
+                </div>
+              </div>
+            </div>
+          `).join('');
+
+          // Agregar event listeners a las sugerencias
+          document.querySelectorAll('.sugerencia-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+              const rutaId = parseInt(e.currentTarget.dataset.rutaId);
+              const busqueda = document.getElementById('busqueda-rutas');
+              busqueda.value = e.currentTarget.querySelector('.sugerencia-nombre').textContent;
+              ocultarSugerencias();
+              aplicarFiltros();
+            });
+          });
+
+          contenedorSugerencias.style.display = 'block';
+        } else {
+          // Mostrar mensaje de no hay sugerencias
+          listaSugerencias.innerHTML = `
+            <div class="sin-sugerencias">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="M21 21l-4.35-4.35"/>
+              </svg>
+              <p>No se encontraron rutas con "${termino}"</p>
+            </div>
+          `;
+          contenedorSugerencias.style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Error inesperado al obtener sugerencias:', error);
+      }
+    }
+
+    /**
+     * 👁️ Oculta las sugerencias de búsqueda
+     */
+    function ocultarSugerencias() {
+      const contenedorSugerencias = document.getElementById('sugerencias-busqueda');
+      if (contenedorSugerencias) {
+        contenedorSugerencias.style.display = 'none';
+      }
+    }
+
+    /**
+     * 🔍 Aplica filtros y búsqueda usando Supabase
+     * Esta función se ejecuta cuando el usuario cambia los filtros o busca
+     */
+    async function aplicarFiltros() {
+      // Prevenir múltiples llamadas simultáneas
+      if (cargando) return;
+      cargando = true;
+
+      const busqueda = document.getElementById('busqueda-rutas')?.value || '';
+      const dificultad = document.getElementById('filtro-dificultad')?.value || '';
+      const duracion = document.getElementById('filtro-duracion')?.value || '';
+      const tipo = document.getElementById('filtro-tipo')?.value || '';
+      const distancia = document.getElementById('filtro-distancia')?.value || '';
+
+      // Mostrar estado de carga
+      mostrarEstadoCarga();
+
+      try {
+        // Preparar filtros para Supabase
+        const filtros = {
+          busqueda: busqueda,
+          dificultad: dificultad,
+          tipo: tipo,
+          duracion: duracion,
+          distancia: distancia
+        };
+
+        // Obtener rutas filtradas desde Supabase
+        const { data: rutasDB, error } = await obtenerRutasFiltradas(filtros);
+        
+        if (error) {
+          console.error('Error al aplicar filtros:', error);
+          mostrarError('Error al aplicar filtros. Por favor, intenta de nuevo.');
+          return;
+        }
+
+        // Convertir datos al formato del frontend
+        rutasFiltradas = rutasDB.map(convertirRutaFormato);
+
+        // Renderizar resultados
+        renderizarRutas();
+        actualizarContador();
+
+      } catch (error) {
+        console.error('Error inesperado al aplicar filtros:', error);
+        mostrarError('Error inesperado al filtrar rutas.');
+      } finally {
+        cargando = false;
+      }
+    }
+
+    /**
+     * 🧹 Limpia todos los filtros y recarga todas las rutas
+     * Esta función resetea todos los filtros y obtiene todas las rutas activas
+     */
+    async function limpiarFiltros() {
+      // Limpiar campos de filtros
+      document.getElementById('busqueda-rutas').value = '';
+      document.getElementById('filtro-dificultad').value = '';
+      document.getElementById('filtro-duracion').value = '';
+      document.getElementById('filtro-tipo').value = '';
+      document.getElementById('filtro-distancia').value = '';
+      
+      // Recargar todas las rutas desde Supabase
+      await aplicarFiltros();
+    }
+
+    function inicializarModal() {
+      const modal = document.getElementById('modal-ruta');
+      const cerrarBtn = document.getElementById('cerrar-modal');
+      const cerrarXBtn = document.getElementById('modal-cerrar-x');
+      const overlay = modal?.querySelector('.modal__overlay');
+
+      // Cerrar modal con botones
+      [cerrarBtn, cerrarXBtn, overlay].forEach(elemento => {
+        elemento?.addEventListener('click', cerrarModal);
+      });
+
+      // Cerrar con Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal?.getAttribute('aria-hidden') === 'false') {
+          cerrarModal();
+        }
+      });
+
+      // Botones del modal
+      document.getElementById('guardar-ruta')?.addEventListener('click', guardarRuta);
+      document.getElementById('iniciar-ruta')?.addEventListener('click', iniciarRutaModal);
+      document.getElementById('compartir-ruta')?.addEventListener('click', compartirRuta);
+    }
+
+    /**
+     * 👁️ Muestra el modal con los detalles completos de una ruta
+     * Carga los datos desde Supabase incluyendo puntos ecológicos
+     * @param {number} rutaId - ID de la ruta a mostrar
+     */
+    async function mostrarModalRuta(rutaId) {
+      const modal = document.getElementById('modal-ruta');
+      
+      // Mostrar modal con estado de carga
+      modal.setAttribute('aria-hidden', 'false');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+
+      // Mostrar estado de carga en el modal
+      document.getElementById('modal-titulo').textContent = 'Cargando ruta...';
+      document.getElementById('modal-nombre').textContent = 'Cargando...';
+      document.getElementById('modal-descripcion').textContent = 'Obteniendo información de la ruta...';
+      document.getElementById('puntos-lista').innerHTML = '<div class="cargando"><div class="cargando-spinner"></div><p>Cargando puntos ecológicos...</p></div>';
+
+      try {
+        // Obtener ruta completa desde Supabase
+        const { data: rutaCompleta, error } = await obtenerRutaCompleta(rutaId);
+        
+        if (error) {
+          console.error('Error al cargar ruta completa:', error);
+          mostrarErrorModal('Error al cargar los detalles de la ruta.');
+          return;
+        }
+
+        if (!rutaCompleta) {
+          mostrarErrorModal('Ruta no encontrada.');
+          return;
+        }
+
+        // Llenar datos del modal
+        document.getElementById('modal-titulo').textContent = rutaCompleta.nombre;
+        document.getElementById('modal-nombre').textContent = rutaCompleta.nombre;
+        document.getElementById('modal-descripcion').textContent = rutaCompleta.descripcion;
+        document.getElementById('modal-imagen').src = rutaCompleta.imagen_url;
+        document.getElementById('modal-imagen').alt = rutaCompleta.nombre;
+        document.getElementById('modal-dificultad').textContent = getDificultadTexto(rutaCompleta.dificultad);
+        document.getElementById('modal-duracion').textContent = `${rutaCompleta.duracion_horas}h`;
+        document.getElementById('modal-ubicacion').textContent = rutaCompleta.ubicacion;
+        document.getElementById('modal-distancia').textContent = `${rutaCompleta.distancia_km} km`;
+        document.getElementById('modal-puntuacion').textContent = `${rutaCompleta.puntuacion}/5`;
+
+        // Puntos ecológicos
+        const puntosLista = document.getElementById('puntos-lista');
+        if (rutaCompleta.puntosEco && rutaCompleta.puntosEco.length > 0) {
+          puntosLista.innerHTML = rutaCompleta.puntosEco.map(punto => `
+            <div class="punto-eco">
+              <h6>${punto.nombre}</h6>
+              <p>${punto.descripcion}</p>
+            </div>
+          `).join('');
+        } else {
+          puntosLista.innerHTML = '<p>No hay puntos ecológicos registrados para esta ruta.</p>';
+        }
+
+      } catch (error) {
+        console.error('Error inesperado al cargar ruta completa:', error);
+        mostrarErrorModal('Error inesperado al cargar la ruta.');
+      }
+    }
+
+    /**
+     * ❌ Muestra un mensaje de error en el modal
+     * @param {string} mensaje - Mensaje de error a mostrar
+     */
+    function mostrarErrorModal(mensaje) {
+      document.getElementById('modal-titulo').textContent = 'Error';
+      document.getElementById('modal-nombre').textContent = 'Error al cargar ruta';
+      document.getElementById('modal-descripcion').textContent = mensaje;
+      document.getElementById('puntos-lista').innerHTML = '';
+    }
+
+    function cerrarModal() {
+      const modal = document.getElementById('modal-ruta');
+      modal.setAttribute('aria-hidden', 'true');
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    function guardarRuta() {
+      // Simular guardado
+      alert('Ruta guardada en tus favoritos');
+    }
+
+    function iniciarRuta(rutaId) {
+      const ruta = rutasData.find(r => r.id === rutaId);
+      if (ruta) {
+        alert(`Iniciando ruta: ${ruta.nombre}`);
+        // Aquí se podría redirigir a una página de navegación
+      }
+    }
+
+    function iniciarRutaModal() {
+      const modal = document.getElementById('modal-ruta');
+      const nombreRuta = document.getElementById('modal-nombre').textContent;
+      cerrarModal();
+      alert(`Iniciando ruta: ${nombreRuta}`);
+    }
+
+    function compartirRuta() {
+      const nombreRuta = document.getElementById('modal-nombre').textContent;
+      const url = window.location.href;
+      
+      if (navigator.share) {
+        navigator.share({
+          title: `Ruta: ${nombreRuta}`,
+          text: `Mira esta increíble ruta eco-comunitaria: ${nombreRuta}`,
+          url: url
+        });
+      } else {
+        // Fallback: copiar al portapapeles
+        navigator.clipboard.writeText(`${nombreRuta} - ${url}`).then(() => {
+          alert('Enlace copiado al portapapeles');
+        });
+      }
+    }
+  </script>
+</body>
+</html>

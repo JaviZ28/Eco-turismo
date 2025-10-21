@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ayuda — Rutas Eco-Comunitarias</title>
+  <link rel="stylesheet" href="/src/styles.css">
+  
+  <!-- Script anti-flash: aplica tema inmediatamente -->
+  <script>
+    (function() {
+      const contrasteGuardado = localStorage.getItem('contrasteAlto');
+      if (contrasteGuardado === 'true') {
+        document.documentElement.setAttribute('data-contraste', 'alto');
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <header class="cabecera">
+    <div class="cabecera__izq">
+      <img src="/src/logo-placeholder.svg" alt="Logo Plataforma" class="logo">
+      <h1 class="nombre-sistema">Rutas Eco-Comunitarias</h1>
+    </div>
+
+    <nav class="menu-horizontal" aria-label="Menú principal">
+      <ul id="menuItems" class="menu__lista--horizontal">
+        <li><a href="/index.html" class="menu__item" data-i18n="nav.inicio">Inicio</a></li>
+        <li><a href="/pages/rutas.html" class="menu__item" data-i18n="nav.rutas">Rutas</a></li>
+        <li><a href="/pages/novedades.html" class="menu__item" data-i18n="nav.novedades">Novedades</a></li>
+        <li><a href="/pages/ayuda.html" class="menu__item activo" data-i18n="nav.ayuda">Ayuda</a></li>
+        <li><a href="#" class="menu__item" id="abrir-accesibilidad" data-i18n="nav.accesibilidad">Accesibilidad</a></li>
+      </ul>
+    </nav>
+
+    <div class="cabecera__der">
+      <button class="boton" id="boton-idioma">🌐 ES</button>
+      <button class="boton" id="boton-accesibilidad" data-i18n="btn.modo-oscuro">🌙 Modo oscuro</button>
+    </div>
+  </header>
+
+  <main class="contenido">
+    <!-- Hero Section para Ayuda -->
+    <section class="hero hero--ayuda" aria-labelledby="titulo-ayuda">
+      <div class="hero__fondo">
+        <div class="hero__overlay"></div>
+      </div>
+      <div class="hero__contenido">
+        <div class="hero__texto">
+          <h1 id="titulo-ayuda" class="hero__titulo" data-i18n="ayuda.titulo">
+            Centro de
+            <span class="hero__destacado">Ayuda</span>
+          </h1>
+          <p class="hero__descripcion" data-i18n="ayuda.descripcion">
+            Encuentra respuestas a tus preguntas y aprende a usar todas las funcionalidades de nuestra plataforma.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navegación de Ayuda -->
+    <section class="ayuda-navegacion" aria-label="Navegación de ayuda">
+      <div class="container">
+        <div class="ayuda-tabs">
+          <button class="ayuda-tab activo" data-tab="general" data-i18n="ayuda.tabs.general">General</button>
+          <button class="ayuda-tab" data-tab="rutas" data-i18n="ayuda.tabs.rutas">Rutas</button>
+          <button class="ayuda-tab" data-tab="filtros" data-i18n="ayuda.tabs.filtros">Filtros</button>
+          <button class="ayuda-tab" data-tab="accesibilidad" data-i18n="ayuda.tabs.accesibilidad">Accesibilidad</button>
+          <button class="ayuda-tab" data-tab="contacto" data-i18n="ayuda.tabs.contacto">Contacto</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contenido de Ayuda -->
+    <section class="ayuda-contenido">
+      <div class="container">
+        <!-- Pestaña General -->
+        <div id="tab-general" class="ayuda-tab-content activo">
+          <h2 data-i18n="ayuda.faq.titulo">Preguntas Frecuentes</h2>
+          
+          <div class="faq-grid">
+            <div class="faq-item">
+              <h3 data-i18n="ayuda.faq.pregunta1">¿Qué es Rutas Eco-Comunitarias?</h3>
+              <p data-i18n="ayuda.faq.respuesta1">Es una plataforma que conecta a los amantes de la naturaleza con rutas eco-turísticas sostenibles. Promovemos el turismo responsable que beneficia a las comunidades locales y protege el medio ambiente.</p>
+            </div>
+
+            <div class="faq-item">
+              <h3 data-i18n="ayuda.faq.pregunta2">¿Cómo funciona el sistema de puntuación?</h3>
+              <p data-i18n="ayuda.faq.respuesta2">Las rutas se califican del 1 al 5 estrellas basándose en las experiencias de usuarios anteriores. Una puntuación alta indica rutas bien mantenidas, seguras y con excelente experiencia.</p>
+            </div>
+
+            <div class="faq-item">
+              <h3 data-i18n="ayuda.faq.pregunta3">¿Es gratis usar la plataforma?</h3>
+              <p data-i18n="ayuda.faq.respuesta3">Sí, nuestra plataforma es completamente gratuita. Solo necesitas registrarte para acceder a todas las funcionalidades, guardar rutas favoritas y compartir tus experiencias.</p>
+            </div>
+
+            <div class="faq-item">
+              <h3 data-i18n="ayuda.faq.pregunta4">¿Cómo puedo contribuir con nuevas rutas?</h3>
+              <p data-i18n="ayuda.faq.respuesta4">Si eres un guía local o conoces rutas eco-turísticas, puedes contactarnos para agregar nuevas rutas. Nuestro equipo las revisará y las publicará en la plataforma.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pestaña Rutas -->
+        <div id="tab-rutas" class="ayuda-tab-content">
+          <h2 data-i18n="ayuda.rutas.titulo">Guía de Rutas</h2>
+          
+          <div class="guia-seccion">
+            <h3>🔍 Cómo Buscar Rutas</h3>
+            <ol class="guia-lista">
+              <li>Ve a la página de <strong>Rutas</strong> desde el menú principal</li>
+              <li>Usa la barra de búsqueda para escribir el nombre, ubicación o descripción</li>
+              <li>Las sugerencias aparecerán automáticamente mientras escribes</li>
+              <li>Haz clic en una sugerencia para seleccionarla</li>
+            </ol>
+          </div>
+
+          <div class="guia-seccion">
+            <h3>🎯 Cómo Filtrar Rutas</h3>
+            <ul class="guia-lista">
+              <li><strong>Dificultad:</strong> Fácil, Media, Difícil</li>
+              <li><strong>Tipo:</strong> Senderismo, Ciclismo, Observación, Fotografía</li>
+              <li><strong>Duración:</strong> Corta (menos de 1h), Media (1-3h), Larga (más de 3h)</li>
+              <li><strong>Distancia:</strong> Corta (menos de 2km), Media (2-5km), Larga (más de 5km)</li>
+            </ul>
+          </div>
+
+          <div class="guia-seccion">
+            <h3>👁️ Vista Previa de Rutas</h3>
+            <ol class="guia-lista">
+              <li>Haz clic en <strong>"Vista Previa"</strong> en cualquier ruta</li>
+              <li>Explora el mapa interactivo y los puntos ecológicos</li>
+              <li>Revisa la información detallada de la ruta</li>
+              <li>Usa los botones para guardar, iniciar o compartir la ruta</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- Pestaña Filtros -->
+        <div id="tab-filtros" class="ayuda-tab-content">
+          <h2 data-i18n="ayuda.filtros.titulo">Guía de Filtros</h2>
+          
+          <div class="filtros-guia">
+            <div class="filtro-explicacion">
+              <h3>🔍 Búsqueda por Texto</h3>
+              <p>Escribe cualquier término en la barra de búsqueda. Busca en nombres, descripciones y ubicaciones de las rutas.</p>
+              <div class="ejemplo">
+                <strong>Ejemplo:</strong> "bosque", "cascada", "aves", "fotografía"
+              </div>
+            </div>
+
+            <div class="filtro-explicacion">
+              <h3>⚡ Filtro de Dificultad</h3>
+              <ul>
+                <li><strong>Fácil:</strong> Caminatas cortas, terreno plano, ideal para principiantes</li>
+                <li><strong>Media:</strong> Rutas moderadas con algunas subidas, experiencia básica recomendada</li>
+                <li><strong>Difícil:</strong> Rutas exigentes con terreno accidentado, para usuarios experimentados</li>
+              </ul>
+            </div>
+
+            <div class="filtro-explicacion">
+              <h3>🏷️ Tipos de Rutas</h3>
+              <ul>
+                <li><strong>Senderismo:</strong> Caminatas por senderos naturales</li>
+                <li><strong>Ciclismo:</strong> Rutas en bicicleta por senderos y caminos</li>
+                <li><strong>Observación:</strong> Rutas especializadas para observar fauna y flora</li>
+                <li><strong>Fotografía:</strong> Rutas con los mejores puntos de vista fotográficos</li>
+              </ul>
+            </div>
+
+            <div class="filtro-explicacion">
+              <h3>⏱️ Duración y Distancia</h3>
+              <p>Combina filtros de duración y distancia para encontrar rutas que se ajusten a tu tiempo disponible y condición física.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pestaña Accesibilidad -->
+        <div id="tab-accesibilidad" class="ayuda-tab-content">
+          <h2 data-i18n="ayuda.accesibilidad.titulo">Funciones de Accesibilidad</h2>
+          
+          <div class="accesibilidad-info">
+            <div class="accesibilidad-item">
+              <h3>🌙 Modo Oscuro</h3>
+              <p>Reduce la fatiga visual y mejora la experiencia en ambientes con poca luz. Actívalo desde el botón en la cabecera.</p>
+            </div>
+
+            <div class="accesibilidad-item">
+              <h3>🔍 Texto Ampliado</h3>
+              <p>Usa las funciones de zoom del navegador (Ctrl + +) para ampliar el texto y mejorar la legibilidad.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pestaña Contacto -->
+        <div id="tab-contacto" class="ayuda-tab-content">
+          <h2 data-i18n="ayuda.contacto.titulo">Contacto y Soporte</h2>
+          
+          <div class="contacto-info">
+            <div class="contacto-item">
+              <h3>📧 Email de Soporte</h3>
+              <p>soporte@rutasecocomunitarias.com</p>
+              <p>Respuesta en 24 horas</p>
+            </div>
+
+            <div class="contacto-item">
+              <h3>📱 Teléfono</h3>
+              <p>+1 (555) 123-4567</p>
+              <p>Lunes a Viernes, 9:00 - 18:00</p>
+            </div>
+            <div class="contacto-item">
+              <h3>📝 Formulario de Contacto</h3>
+              <form class="formulario-contacto">
+                <div class="formulario-grupo">
+                  <label for="nombre">Nombre</label>
+                  <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="formulario-grupo">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" required>
+                </div>
+                <div class="formulario-grupo">
+                  <label for="asunto">Asunto</label>
+                  <select id="asunto" name="asunto" required>
+                    <option value="">Seleccionar asunto</option>
+                    <option value="tecnico">Problema técnico</option>
+                    <option value="nueva-ruta">Sugerir nueva ruta</option>
+                    <option value="cuenta">Problema con mi cuenta</option>
+                    <option value="otro">Otro</option>
+                  </select>
+                </div>
+                <div class="formulario-grupo">
+                  <label for="mensaje">Mensaje</label>
+                  <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="boton primario">Enviar Mensaje</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <small>© <span id="ano"></span> <span data-i18n="footer.derechos">Rutas Eco-Comunitarias</span></small>
+  </footer>
+
+  <!-- Modal de Accesibilidad -->
+  <div id="modal-accesibilidad" class="modal" role="dialog" aria-labelledby="modal-accesibilidad-titulo" aria-hidden="true">
+    <div class="modal__overlay"></div>
+    <div class="modal__contenido modal__contenido--accesibilidad">
+      <div class="modal__header">
+        <h3 id="modal-accesibilidad-titulo" class="modal__titulo" data-i18n="accesibilidad.titulo">Configuración de Accesibilidad</h3>
+        <button class="modal__cerrar" id="modal-accesibilidad-cerrar" aria-label="Cerrar modal" data-i18n="btn.cerrar">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="modal__body">
+        <div class="accesibilidad-opciones">
+          <div class="accesibilidad-opcion">
+            <h4 data-i18n="accesibilidad.modo-oscuro">🌙 Modo Oscuro</h4>
+            <p data-i18n="accesibilidad.modo-oscuro.desc">Reduce la fatiga visual en ambientes con poca luz</p>
+            <button class="boton" id="toggle-modo-oscuro" data-i18n="accesibilidad.modo-oscuro">Activar Modo Oscuro</button>
+          </div>
+
+          <div class="accesibilidad-opcion">
+            <h4 data-i18n="accesibilidad.texto-ampliado">🔍 Texto Ampliado</h4>
+            <p data-i18n="accesibilidad.texto-ampliado.desc">Amplía el tamaño del texto para mejor legibilidad</p>
+            <div class="control-texto">
+              <button class="boton" id="reducir-texto">A-</button>
+              <span id="tamaño-texto">100%</span>
+              <button class="boton" id="aumentar-texto">A+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { inicializarTema, actualizarAnio, inicializarMenu } from "/src/scripts/comunes.ts";
+    import { inicializarIdiomas, inicializarAccesibilidad } from "/src/scripts/idiomas.js";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      inicializarTema();
+      actualizarAnio();
+      inicializarMenu();
+      inicializarIdiomas();
+      inicializarAccesibilidad();
+      inicializarAyuda();
+    });
+
+    function inicializarAyuda() {
+      // Navegación por pestañas
+      const tabs = document.querySelectorAll('.ayuda-tab');
+      const contents = document.querySelectorAll('.ayuda-tab-content');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const targetTab = tab.dataset.tab;
+          
+          // Remover clase activa de todos los tabs
+          tabs.forEach(t => t.classList.remove('activo'));
+          contents.forEach(c => c.classList.remove('activo'));
+          
+          // Activar tab seleccionado
+          tab.classList.add('activo');
+          document.getElementById(`tab-${targetTab}`).classList.add('activo');
+        });
+      });
+
+      // Formulario de contacto
+      const formulario = document.querySelector('.formulario-contacto');
+      if (formulario) {
+        formulario.addEventListener('submit', (e) => {
+          e.preventDefault();
+          alert('¡Mensaje enviado! Te contactaremos pronto.');
+        });
+      }
+    }
+  </script>
+</body>
+</html>

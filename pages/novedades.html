@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Novedades — Rutas Eco-Comunitarias</title>
+  <link rel="stylesheet" href="/src/styles.css">
+  
+  <!-- Script anti-flash: aplica tema inmediatamente -->
+  <script>
+    (function() {
+      const contrasteGuardado = localStorage.getItem('contrasteAlto');
+      if (contrasteGuardado === 'true') {
+        document.documentElement.setAttribute('data-contraste', 'alto');
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <header class="cabecera">
+    <div class="cabecera__izq">
+      <img src="/src/logo-placeholder.svg" alt="Logo Plataforma" class="logo">
+      <h1 class="nombre-sistema">Rutas Eco-Comunitarias</h1>
+    </div>
+
+    <nav class="menu-horizontal" aria-label="Menú principal">
+      <ul id="menuItems" class="menu__lista--horizontal">
+        <li><a href="/index.html" class="menu__item" data-i18n="nav.inicio">Inicio</a></li>
+        <li><a href="/pages/rutas.html" class="menu__item" data-i18n="nav.rutas">Rutas</a></li>
+        <li><a href="/pages/novedades.html" class="menu__item activo" data-i18n="nav.novedades">Novedades</a></li>
+        <li><a href="/pages/ayuda.html" class="menu__item" data-i18n="nav.ayuda">Ayuda</a></li>
+        <li><a href="#" class="menu__item" id="abrir-accesibilidad" data-i18n="nav.accesibilidad">Accesibilidad</a></li>
+      </ul>
+    </nav>
+
+    <div class="cabecera__der">
+      <button class="boton" id="boton-idioma">🌐 ES</button>
+      <button class="boton" data-i18n="btn.iniciar-sesion">Iniciar Sesion</button>
+      <button id="boton-accesibilidad" class="boton" data-i18n="btn.modo-oscuro">Modo oscuro</button>
+    </div>
+  </header>
+
+  <main class="contenido">
+    <!-- Hero Section para Novedades -->
+    <section class="hero hero--novedades" aria-labelledby="titulo-novedades">
+      <div class="hero__fondo">
+        <div class="hero__overlay"></div>
+      </div>
+      <div class="hero__contenido">
+        <div class="hero__texto">
+          <h1 id="titulo-novedades" class="hero__titulo" data-i18n="novedades.titulo">
+            Novedades
+            <span class="hero__destacado">Eco-Turísticas</span>
+          </h1>
+          <p class="hero__descripcion" data-i18n="novedades.descripcion">
+            Descubre las últimas noticias, rutas destacadas y novedades del mundo del ecoturismo comunitario.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección de Ecoturismo -->
+    <section class="ecoturismo-seccion" aria-label="Información sobre ecoturismo">
+      <div class="container">
+        <div class="ecoturismo-contenido">
+          <div class="ecoturismo-texto">
+            <h2 data-i18n="novedades.ecoturismo.titulo">¿Qué es el Ecoturismo?</h2>
+            <p class="ecoturismo-descripcion" data-i18n="novedades.ecoturismo.descripcion">
+              El ecoturismo es una forma de turismo responsable que se enfoca en la conservación del medio ambiente 
+              y el bienestar de las comunidades locales. A través de nuestras rutas eco-comunitarias, promovemos 
+              un turismo sostenible que respeta la naturaleza y beneficia a las comunidades.
+            </p>
+            
+            <div class="ecoturismo-beneficios">
+              <h3 data-i18n="novedades.beneficios.titulo">Beneficios del Ecoturismo</h3>
+              <div class="beneficios-grid">
+                <div class="beneficio-item">
+                  <div class="beneficio-icono">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                  </div>
+                  <h4 data-i18n="novedades.beneficios.conservacion">Conservación</h4>
+                  <p data-i18n="novedades.beneficios.conservacion.desc">Protege y preserva los ecosistemas naturales</p>
+                </div>
+                
+                <div class="beneficio-item">
+                  <div class="beneficio-icono">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                      <circle cx="9" cy="7" r="4"/>
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                  </div>
+                  <h4 data-i18n="novedades.beneficios.comunidad">Comunidad</h4>
+                  <p data-i18n="novedades.beneficios.comunidad.desc">Apoya el desarrollo económico local</p>
+                </div>
+                
+                <div class="beneficio-item">
+                  <div class="beneficio-icono">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M9 12l2 2 4-4"/>
+                      <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
+                      <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/>
+                      <path d="M12 3c0 1-1 3-3 3s-3-2-3-3 1-3 3-3 3 2 3 3"/>
+                      <path d="M12 21c0-1 1-3 3-3s3 2 3 3-1 3-3 3-3-2-3-3"/>
+                    </svg>
+                  </div>
+                  <h4 data-i18n="novedades.beneficios.educacion">Educación</h4>
+                  <p data-i18n="novedades.beneficios.educacion.desc">Promueve la conciencia ambiental</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="ecoturismo-imagen">
+            <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=400&fit=crop" alt="Ecoturismo sostenible" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rutas Destacadas -->
+    <section class="rutas-destacadas" aria-label="Rutas destacadas">
+      <div class="container">
+        <div class="rutas-destacadas-header">
+          <h2 data-i18n="novedades.rutas-destacadas.titulo">Rutas Destacadas</h2>
+          <p data-i18n="novedades.rutas-destacadas.descripcion">Descubre las rutas más populares y mejor valoradas por nuestra comunidad</p>
+        </div>
+        
+        <div id="lista-rutas-destacadas" class="lista-rutas-destacadas">
+          <div class="cargando">
+            <div class="cargando-spinner"></div>
+            <p data-i18n="estado.cargando">Cargando rutas destacadas...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Noticias y Actualizaciones -->
+    <section class="noticias-seccion" aria-label="Noticias y actualizaciones">
+      <div class="container">
+        <h2 data-i18n="novedades.noticias.titulo">Últimas Noticias</h2>
+        <div class="noticias-grid">
+          <article class="noticia-card">
+            <div class="noticia-imagen">
+              <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=250&fit=crop" alt="Nueva ruta fotográfica" loading="lazy">
+            </div>
+            <div class="noticia-contenido">
+              <div class="noticia-fecha">15 Enero 2025</div>
+              <h3>Nueva Ruta Fotográfica Disponible</h3>
+              <p>Hemos añadido una nueva ruta especializada para fotógrafos en la Reserva Fotográfica El Amanecer. Incluye los mejores puntos de vista para capturar la naturaleza.</p>
+              <a href="/pages/rutas.html" class="noticia-enlace">Ver ruta →</a>
+            </div>
+          </article>
+          
+          <article class="noticia-card">
+            <div class="noticia-imagen">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop" alt="Observación de aves" loading="lazy">
+            </div>
+            <div class="noticia-contenido">
+              <div class="noticia-fecha">10 Enero 2025</div>
+              <h3>Guía de Observación de Aves</h3>
+              <p>Nueva guía completa para la observación de aves nocturnas. Incluye equipos recomendados y mejores horarios para el avistamiento.</p>
+              <a href="/pages/rutas.html" class="noticia-enlace">Leer más →</a>
+            </div>
+          </article>
+          
+          <article class="noticia-card">
+            <div class="noticia-imagen">
+              <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=250&fit=crop" alt="Ciclismo sostenible" loading="lazy">
+            </div>
+            <div class="noticia-contenido">
+              <div class="noticia-fecha">5 Enero 2025</div>
+              <h3>Rutas Ciclísticas Actualizadas</h3>
+              <p>Hemos mejorado las rutas ciclísticas con nuevos senderos y áreas de reparación. Ahora incluye mapas detallados y puntos de interés.</p>
+              <a href="/pages/rutas.html" class="noticia-enlace">Explorar →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <small>© <span id="ano"></span> <span data-i18n="footer.derechos">Rutas Eco-Comunitarias</span></small>
+  </footer>
+    <!-- Modal de Accesibilidad -->
+    <div id="modal-accesibilidad" class="modal" role="dialog" aria-labelledby="modal-accesibilidad-titulo" aria-hidden="true">
+      <div class="modal__overlay"></div>
+      <div class="modal__contenido modal__contenido--accesibilidad">
+        <div class="modal__header">
+          <h3 id="modal-accesibilidad-titulo" class="modal__titulo" data-i18n="accesibilidad.titulo">Configuración de Accesibilidad</h3>
+          <button class="modal__cerrar" id="modal-accesibilidad-cerrar" aria-label="Cerrar modal" data-i18n="btn.cerrar">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="modal__body">
+          <div class="accesibilidad-opciones">
+            <div class="accesibilidad-opcion">
+              <h4 data-i18n="accesibilidad.modo-oscuro">🌙 Modo Oscuro</h4>
+              <p data-i18n="accesibilidad.modo-oscuro.desc">Reduce la fatiga visual en ambientes con poca luz</p>
+              <button class="boton" id="toggle-modo-oscuro" data-i18n="accesibilidad.modo-oscuro">Activar Modo Oscuro</button>
+            </div>
+  
+            <div class="accesibilidad-opcion">
+              <h4 data-i18n="accesibilidad.texto-ampliado">🔍 Texto Ampliado</h4>
+              <p data-i18n="accesibilidad.texto-ampliado.desc">Amplía el tamaño del texto para mejor legibilidad</p>
+              <div class="control-texto">
+                <button class="boton" id="reducir-texto">A-</button>
+                <span id="tamaño-texto">100%</span>
+                <button class="boton" id="aumentar-texto">A+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <script type="module">
+    import { inicializarTema, actualizarAnio, inicializarMenu } from "/src/scripts/comunes.ts";
+    import { inicializarIdiomas, inicializarAccesibilidad } from "/src/scripts/idiomas.js";
+    import { obtenerRutasFiltradas, convertirRutaFormato } from "/src/services/supabase.js";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      inicializarTema();
+      actualizarAnio();
+      inicializarMenu();
+      inicializarIdiomas();
+      inicializarAccesibilidad();
+      cargarRutasDestacadas();
+    });
+
+    /**
+     * 🌟 Carga las rutas más destacadas para la página de novedades
+     */
+    async function cargarRutasDestacadas() {
+      const lista = document.getElementById("lista-rutas-destacadas");
+      if (!lista) return;
+
+      try {
+        // Obtener rutas destacadas (las mejor puntuadas)
+        const { data: rutasDB, error } = await obtenerRutasFiltradas({});
+        
+        if (error) {
+          console.error('Error al cargar rutas destacadas:', error);
+          lista.innerHTML = '<p>Error al cargar rutas destacadas</p>';
+          return;
+        }
+
+        // Convertir y tomar las 3 mejores
+        const rutasDestacadas = rutasDB
+          .map(convertirRutaFormato)
+          .sort((a, b) => b.puntuacion - a.puntuacion)
+          .slice(0, 3);
+
+        if (rutasDestacadas.length > 0) {
+          lista.innerHTML = rutasDestacadas.map(ruta => `
+            <div class="ruta-destacada">
+              <div class="ruta-destacada__imagen">
+                <img src="${ruta.imagen}" alt="${ruta.nombre}" loading="lazy">
+                <div class="ruta-destacada__badge">
+                  <span class="badge badge--${ruta.dificultad}">${getDificultadTexto(ruta.dificultad)}</span>
+                </div>
+              </div>
+              <div class="ruta-destacada__contenido">
+                <h3>${ruta.nombre}</h3>
+                <p>${ruta.descripcion}</p>
+                <div class="ruta-destacada__meta">
+                  <span>⭐ ${ruta.puntuacion}/5</span>
+                  <span>📍 ${ruta.ubicacion}</span>
+                  <span>⏱️ ${ruta.duracion}</span>
+                </div>
+                <a href="/pages/rutas.html" class="boton primario">Ver ruta</a>
+              </div>
+            </div>
+          `).join('');
+        } else {
+          lista.innerHTML = '<p>No hay rutas destacadas disponibles</p>';
+        }
+      } catch (error) {
+        console.error('Error inesperado al cargar rutas destacadas:', error);
+        lista.innerHTML = '<p>Error al cargar rutas destacadas</p>';
+      }
+    }
+
+    function getDificultadTexto(dificultad) {
+      const dificultades = {
+        'facil': 'Fácil',
+        'media': 'Media',
+        'dificil': 'Difícil'
+      };
+      return dificultades[dificultad] || dificultad;
+    }
+  </script>
+</body>
+</html>

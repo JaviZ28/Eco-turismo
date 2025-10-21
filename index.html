@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Plataforma de rutas eco-turísticas comunitarias — Inicio</title>
+  <link rel="stylesheet" href="/src/styles.css" />
+  
+  <!-- Script anti-flash: aplica tema inmediatamente -->
+  <script>
+    (function() {
+      const contrasteGuardado = localStorage.getItem('contrasteAlto');
+      if (contrasteGuardado === 'true') {
+        document.documentElement.setAttribute('data-contraste', 'alto');
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <!-- CABECERA SUPERIOR -->
+  <header class="cabecera">
+    <div class="cabecera__izq">
+      <img src="/src/logo-placeholder.svg" alt="Logo Plataforma" class="logo" />
+      <h1 class="nombre-sistema">Rutas Eco-Comunitarias</h1>
+    </div>
+
+    <!-- NUEVO MENÚ HORIZONTAL -->
+    <nav class="menu-horizontal" aria-label="Menú principal">
+      <ul id="menuItems" class="menu__lista--horizontal">
+        <li><a href="/index.html" class="menu__item activo" data-i18n="nav.inicio">Inicio</a></li>
+        <li><a href="/pages/rutas.html" class="menu__item" data-i18n="nav.rutas">Rutas</a></li>
+        <li><a href="/pages/novedades.html" class="menu__item" data-i18n="nav.novedades">Novedades</a></li>
+        <li><a href="/pages/ayuda.html" class="menu__item" data-i18n="nav.ayuda">Ayuda</a></li>
+        <li><a href="#" class="menu__item" id="abrir-accesibilidad" data-i18n="nav.accesibilidad">Accesibilidad</a></li>
+      </ul>
+    </nav>
+
+    <div class="cabecera__der">
+      <button class="boton" id="boton-idioma">🌐 ES</button>
+      <button class="boton" data-i18n="btn.iniciar-sesion">Iniciar Sesion</button>
+      <button id="boton-accesibilidad" class="boton" data-i18n="btn.modo-oscuro">Modo oscuro</button>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="contenido" role="main" aria-labelledby="titulo-principal">
+
+    <!-- HERO SECTION SIMPLIFICADO -->
+    <section class="hero" aria-labelledby="titulo-hero">
+      <div class="hero__fondo">
+        <div class="hero__overlay"></div>
+      </div>
+      <div class="hero__contenido">
+        <div class="hero__texto">
+          <h1 id="titulo-hero" class="hero__titulo" data-i18n="inicio.titulo">
+            Descubre la Naturaleza
+            <span class="hero__destacado">Junto a tu Comunidad</span>
+          </h1>
+          <p class="hero__descripcion" data-i18n="inicio.descripcion">
+            Explora rutas eco-turísticas creadas por la comunidad y conecta con la naturaleza de manera sostenible. 
+            Cada ruta es una aventura única que respeta el medio ambiente.
+          </p>
+          <div class="hero__acciones">
+            <a href="/pages/rutas.html" class="hero__btn hero__btn--primario">
+              <span data-i18n="inicio.cta">Explorar Rutas</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="pie" role="contentinfo">
+    <div>
+      <p><strong data-i18n="footer.institucion">Institución:</strong> <span data-i18n="footer.proyecto">Proyecto Comunitario</span></p>
+      <p>
+        <a href="#" id="link-soporte" data-i18n="footer.soporte">Soporte / Contacto</a> |
+        <a href="#" id="link-terminos" data-i18n="footer.terminos">Términos y uso</a>
+      </p>
+    </div>
+    <div>
+      <small>© <span id="ano">2025</span> <span data-i18n="footer.derechos">Rutas Eco-Comunitarias</span></small>
+    </div>
+  </footer>
+    <!-- Modal de Accesibilidad -->
+    <div id="modal-accesibilidad" class="modal" role="dialog" aria-labelledby="modal-accesibilidad-titulo" aria-hidden="true">
+      <div class="modal__overlay"></div>
+      <div class="modal__contenido modal__contenido--accesibilidad">
+        <div class="modal__header">
+          <h3 id="modal-accesibilidad-titulo" class="modal__titulo" data-i18n="accesibilidad.titulo">Configuración de Accesibilidad</h3>
+          <button class="modal__cerrar" id="modal-accesibilidad-cerrar" aria-label="Cerrar modal" data-i18n="btn.cerrar">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="modal__body">
+          <div class="accesibilidad-opciones">
+            <div class="accesibilidad-opcion">
+              <h4 data-i18n="accesibilidad.modo-oscuro">🌙 Modo Oscuro</h4>
+              <p data-i18n="accesibilidad.modo-oscuro.desc">Reduce la fatiga visual en ambientes con poca luz</p>
+              <button class="boton" id="toggle-modo-oscuro" data-i18n="accesibilidad.modo-oscuro">Activar Modo Oscuro</button>
+            </div>
+  
+            <div class="accesibilidad-opcion">
+              <h4 data-i18n="accesibilidad.texto-ampliado">🔍 Texto Ampliado</h4>
+              <p data-i18n="accesibilidad.texto-ampliado.desc">Amplía el tamaño del texto para mejor legibilidad</p>
+              <div class="control-texto">
+                <button class="boton" id="reducir-texto">A-</button>
+                <span id="tamaño-texto">100%</span>
+                <button class="boton" id="aumentar-texto">A+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- Script principal -->
+  <script type="module">
+    import { inicializarTema, actualizarAnio, inicializarMenu } from "/src/scripts/comunes.ts";
+    import { inicializarIdiomas, inicializarAccesibilidad } from "/src/scripts/idiomas.js";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      inicializarTema();
+      actualizarAnio();
+      inicializarMenu();
+      inicializarIdiomas();
+      inicializarAccesibilidad();
+    });
+  </script>
+</body>
+</html>
