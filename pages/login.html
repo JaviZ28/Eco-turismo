@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Iniciar Sesión — Rutas Eco-Comunitarias</title>
+  <link rel="stylesheet" href="/src/styles.css">
+  
+  <script>
+    (function() {
+      const contrasteGuardado = localStorage.getItem('contrasteAlto');
+      if (contrasteGuardado === 'true') {
+        document.documentElement.setAttribute('data-contraste', 'alto');
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <header class="cabecera">
+    <div class="cabecera__izq">
+      <img src="/src/logo-placeholder.svg" alt="Logo Plataforma" class="logo">
+      <h1 class="nombre-sistema">Rutas Eco-Comunitarias</h1>
+    </div>
+
+    <nav class="menu-horizontal" aria-label="Menú principal">
+      <ul id="menuItems" class="menu__lista--horizontal">
+        <li><a href="/index.html" class="menu__item" data-i18n="nav.inicio">Inicio</a></li>
+        <li><a href="/pages/rutas.html" class="menu__item" data-i18n="nav.rutas">Rutas</a></li>
+        <li><a href="/pages/novedades.html" class="menu__item" data-i18n="nav.novedades">Novedades</a></li>
+        <li><a href="/pages/ayuda.html" class="menu__item" data-i18n="nav.ayuda">Ayuda</a></li>
+        <li><a href="#" class="menu__item" id="abrir-accesibilidad" data-i18n="nav.accesibilidad">Accesibilidad</a></li>
+      </ul>
+    </nav>
+
+    <div class="cabecera__der">
+      <button class="boton" id="boton-idioma">🌐 ES</button>
+      <a href="/pages/registro.html" class="boton">Registrarse</a>
+      <button id="boton-accesibilidad" class="boton" data-i18n="btn.modo-oscuro">Modo oscuro</button>
+    </div>
+  </header>
+
+  <main class="contenido">
+    <div class="auth-container">
+      <form id="form-login" class="auth-form">
+        <h2 class="auth-titulo">Iniciar Sesión</h2>
+        <p class="auth-descripcion">Accede a tu cuenta para ver tus rutas guardadas.</p>
+        
+        <div id="auth-error" class="auth-error" style="display: none;"></div>
+
+        <div class="formulario-grupo">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required autocomplete="email" placeholder="user@mail.com">
+        </div>
+        
+        <div class="formulario-grupo">
+          <label for="password">Contraseña</label>
+          <div class="input-con-icono">
+            <input type="password" id="password" name="password" required autocomplete="current-password" placeholder="contraseña">
+            <button type="button" class="toggle-password" id="toggle-password" aria-label="Mostrar contraseña">
+              <svg id="svg-eye" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <svg id="svg-eye-off" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="auth-enlace-secundario">
+          <a href="/pages/recuperar.html">¿Olvidaste tu contraseña?</a>
+          <a href="/pages/recuperar-email.html">¿Olvidaste tu email?</a>
+        </div>
+        <button type="submit" class="boton primario" style="width: 100%;">Acceder</button>
+        
+        <p class="auth-enlace">
+          ¿No tienes cuenta? <a href="/pages/registro.html">Regístrate aquí</a>
+        </p>
+      </form>
+    </div>
+  </main>
+
+  <footer class="pie" role="contentinfo">
+  <div>
+    <p>
+      <a href="/pages/ayuda.html" id="link-soporte" data-i18n="footer.soporte">Soporte / Contacto</a> |
+      <a href="/pages/terminos.html" target="_blank" rel="noopener noreferrer">Términos y Privacidad</a>
+      </p>
+  </div>
+  <div>
+    <small>© <span id="ano"></span> <span data-i18n="footer.derechos">Rutas Eco-Comunitarias</span></small>
+  </div>
+</footer>
+  
+  <div id="modal-accesibilidad" class="modal" role="dialog" aria-labelledby="modal-accesibilidad-titulo" aria-hidden="true">
+    </div>
+
+  <script type="module">
+    import { inicializarTema, actualizarAnio, inicializarMenu } from "/src/scripts/comunes.ts";
+    import { inicializarIdiomas, inicializarAccesibilidad } from "/src/scripts/idiomas.js";
+    import { supabase } from "/src/services/supabase.js";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      inicializarTema();
+      actualizarAnio();
+      inicializarMenu();
+      inicializarIdiomas();
+      inicializarAccesibilidad();
+      
+      const formLogin = document.getElementById('form-login');
+      formLogin.addEventListener('submit', handleLogin);
+      
+      // === ¡AQUÍ ESTÁ LA LÍNEA DE JS QUE FALTABA! ===
+      inicializarTogglePassword();
+    });
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const errorDiv = document.getElementById('auth-error');
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      errorDiv.style.display = 'none';
+      errorDiv.textContent = '';
+
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: email,
+          password: password,
+        });
+
+        if (error) {
+          throw error;
+        }
+
+        window.location.href = '/pages/perfil.html';
+
+      } catch (error) {
+        console.error('Error al iniciar sesión:', error.message);
+        errorDiv.textContent = 'Error: ' + error.message;
+        errorDiv.style.display = 'block';
+      }
+    }
+
+    // === ¡AQUÍ ESTÁ LA FUNCIÓN DE JS QUE FALTABA! ===
+    function inicializarTogglePassword() {
+      const toggleBtn = document.getElementById('toggle-password');
+      const passwordInput = document.getElementById('password');
+      const eyeIcon = document.getElementById('svg-eye');
+      const eyeOffIcon = document.getElementById('svg-eye-off');
+
+      if (!toggleBtn || !passwordInput || !eyeIcon || !eyeOffIcon) return;
+
+      toggleBtn.addEventListener('click', () => {
+        // Comprobar si el tipo es 'password'
+        const isPassword = passwordInput.type === 'password';
+        
+        if (isPassword) {
+          // Cambiar a texto (mostrar contraseña)
+          passwordInput.type = 'text';
+          toggleBtn.setAttribute('aria-label', 'Ocultar contraseña');
+          eyeIcon.style.display = 'none';
+          eyeOffIcon.style.display = 'block';
+        } else {
+          // Cambiar a password (ocultar contraseña)
+          passwordInput.type = 'password';
+          toggleBtn.setAttribute('aria-label', 'Mostrar contraseña');
+          eyeIcon.style.display = 'block';
+          eyeOffIcon.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

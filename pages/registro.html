@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Crear Cuenta — Rutas Eco-Comunitarias</title>
+  <link rel="stylesheet" href="/src/styles.css">
+  
+  <script>
+    (function() {
+      const contrasteGuardado = localStorage.getItem('contrasteAlto');
+      if (contrasteGuardado === 'true') {
+        document.documentElement.setAttribute('data-contraste', 'alto');
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <header class="cabecera">
+    <div class="cabecera__izq">
+      <img src="/src/logo-placeholder.svg" alt="Logo Plataforma" class="logo">
+      <h1 class="nombre-sistema">Rutas Eco-Comunitarias</h1>
+    </div>
+
+    <nav class="menu-horizontal" aria-label="Menú principal">
+      <ul id="menuItems" class="menu__lista--horizontal">
+        <li><a href="/index.html" class="menu__item" data-i18n="nav.inicio">Inicio</a></li>
+        <li><a href="/pages/rutas.html" class="menu__item" data-i18n="nav.rutas">Rutas</a></li>
+        <li><a href="/pages/novedades.html" class="menu__item" data-i18n="nav.novedades">Novedades</a></li>
+        <li><a href="/pages/ayuda.html" class="menu__item" data-i18n="nav.ayuda">Ayuda</a></li>
+        <li><a href="#" class="menu__item" id="abrir-accesibilidad" data-i18n="nav.accesibilidad">Accesibilidad</a></li>
+      </ul>
+    </nav
+
+    <div class="cabecera__der">
+      <button class="boton" id="boton-idioma">🌐 ES</button>
+      <a href="/pages/login.html" class="boton" data-i18n="btn.iniciar-sesion">Iniciar Sesion</a>
+      <button id="boton-accesibilidad" class="boton" data-i18n="btn.modo-oscuro">Modo oscuro</button>
+    </div>
+  </header>
+
+  <main class="contenido">
+    <div class="auth-container">
+      <form id="form-registro" class="auth-form">
+        <h2 class="auth-titulo">Crear Cuenta</h2>
+        <p class="auth-descripcion">Únete a la comunidad de eco-turismo.</p>
+        
+        <div id="auth-error" class="auth-error" style="display: none;"></div>
+        <div id="auth-success" class="auth-success" style="display: none;"></div>
+
+        <div class="formulario-grupo">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" name="nombre" required autocomplete="given-name" placeholder="Deny"">
+        </div>
+
+        <div class="formulario-grupo">
+          <label for="apellido">Apellido</label>
+          <input type="text" id="apellido" name="apellido" required autocomplete="family-name" placeholder="Mera">
+        </div>
+
+        <div class="formulario-grupo">
+          <label for="telefono">Teléfono (Opcional)</label>
+          <input type="tel" id="telefono" name="telefono" autocomplete="tel" placeholder="0959748390">
+        </div>
+        
+        <div class="formulario-grupo">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required autocomplete="email" placeholder="user@mail.com">
+        </div>
+        
+        <div class="formulario-grupo">
+          <label for="password">Contraseña (mín. 6 caracteres)</label>
+          <input type="password" id="password" name="password" required autocomplete="new-password" minlength="6" placeholder="contraseña">
+        </div>
+        
+        <button type="submit" class="boton primario" style="width: 100%;">Crear Cuenta</button>
+        
+        <p class="auth-enlace">
+          ¿Ya tienes cuenta? <a href="/pages/login.html">Inicia Sesión</a>
+        </p>
+      </form>
+    </div>
+  </main>
+
+  <footer class="pie">
+    <small>© <span id="ano"></span> <span data-i18n="footer.derechos">Rutas Eco-Comunitarias</span></small>
+  </footer>
+  
+  <div id="modal-accesibilidad" class="modal" role="dialog" aria-labelledby="modal-accesibilidad-titulo" aria-hidden="true">
+    </div>
+
+  <script type="module">
+    import { inicializarTema, actualizarAnio, inicializarMenu } from "/src/scripts/comunes.ts";
+    import { inicializarIdiomas, inicializarAccesibilidad } from "/src/scripts/idiomas.js";
+    import { supabase } from "/src/services/supabase.js";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      inicializarTema();
+      actualizarAnio();
+      inicializarMenu();
+      inicializarIdiomas();
+      inicializarAccesibilidad();
+      
+      const formRegistro = document.getElementById('form-registro');
+      formRegistro.addEventListener('submit', handleRegistro);
+    });
+
+    // --- VERSIÓN ACTUALIZADA CON METADATA ---
+    async function handleRegistro(e) {
+      e.preventDefault();
+      const errorDiv = document.getElementById('auth-error');
+      const successDiv = document.getElementById('auth-success');
+      const submitButton = e.target.querySelector('button[type="submit"]');
+      
+      const nombre = document.getElementById('nombre').value;
+      const apellido = document.getElementById('apellido').value;
+      const telefono = document.getElementById('telefono').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      errorDiv.style.display = 'none';
+      successDiv.style.display = 'none';
+      submitButton.disabled = true; // Deshabilitar botón
+
+      try {
+        // --- PASO ÚNICO: Crear usuario Y enviar metadata ---
+        // El Trigger en Supabase se encargará de crear el perfil
+        const { data, error } = await supabase.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+            data: { // Estos datos van a raw_user_meta_data
+              nombre: nombre,
+              apellido: apellido,
+              telefono: telefono
+            }
+          }
+        });
+
+        if (error) {
+          throw error;
+        }
+
+        // --- ¡ÉXITO! MOSTRAR MENSAJE Y REDIRIGIR ---
+        successDiv.textContent = '¡Cuenta creada con éxito! Redirigiendo a tu perfil...';
+        successDiv.style.display = 'block';
+
+        // Redirigir al perfil después de 2 segundos
+        setTimeout(() => {
+          window.location.href = '/pages/perfil.html';
+        }, 2000); // 2 segundos de espera
+
+      } catch (error) {
+        console.error('Error en el registro:', error.message);
+        errorDiv.textContent = 'Error: ' + error.message;
+        errorDiv.style.display = 'block';
+        submitButton.disabled = false; // Reactivar botón si hay error
+      }
+    }
+  </script>
+</body>
+</html>

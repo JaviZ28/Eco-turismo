@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Restablecer Contraseña — Rutas Eco-Comunitarias</title>
+  <link rel="stylesheet" href="/src/styles.css">
+  
+  <script>
+    (function() {
+      const contrasteGuardado = localStorage.getItem('contrasteAlto');
+      if (contrasteGuardado === 'true') {
+        document.documentElement.setAttribute('data-contraste', 'alto');
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <header class="cabecera">
+    </header>
+
+  <main class="contenido">
+    <div class="auth-container">
+      <form id="form-reset" class="auth-form">
+        <h2 class="auth-titulo">Establecer Nueva Contraseña</h2>
+        <p class="auth-descripcion" id="auth-info">Ingresa tu nueva contraseña.</p>
+        
+        <div id="auth-error" class="auth-error" style="display: none;"></div>
+        <div id="auth-success" class="auth-success" style="display: none;"></div>
+
+        <div class="formulario-grupo">
+          <label for="password">Nueva Contraseña (mín. 6 caracteres)</label>
+          <input type="password" id="password" name="password" required autocomplete="new-password" minlength="6"  >
+        </div>
+        
+        <button type="submit" class="boton primario" style="width: 100%;">Guardar Contraseña</button>
+      </form>
+    </div>
+  </main>
+
+  <footer class="pie">
+    <small>© <span id="ano"></span> <span data-i18n="footer.derechos">Rutas Eco-Comunitarias</span></small>
+  </footer>
+  
+  <div id="modal-accesibilidad" class="modal" role="dialog" aria-labelledby="modal-accesibilidad-titulo" aria-hidden="true">
+    </div>
+
+  <script type="module">
+    import { inicializarTema, actualizarAnio, inicializarMenu } from "/src/scripts/comunes.ts";
+    import { inicializarIdiomas, inicializarAccesibilidad } from "/src/scripts/idiomas.js";
+    import { supabase } from "/src/services/supabase.js";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      inicializarTema();
+      actualizarAnio();
+      inicializarMenu();
+      inicializarIdiomas();
+      inicializarAccesibilidad();
+      
+      document.getElementById('form-reset').addEventListener('submit', handleReset);
+    });
+
+    async function handleReset(e) {
+      e.preventDefault();
+      const errorDiv = document.getElementById('auth-error');
+      const successDiv = document.getElementById('auth-success');
+      const submitButton = e.target.querySelector('button[type="submit"]');
+      const newPassword = document.getElementById('password').value;
+
+      errorDiv.style.display = 'none';
+      successDiv.style.display = 'none';
+      submitButton.disabled = true;
+
+      try {
+        // Supabase detecta automáticamente el token de reseteo desde la URL
+        const { error } = await supabase.auth.updateUser({
+          password: newPassword
+        });
+
+        if (error) {
+          throw error;
+        }
+
+        successDiv.textContent = '¡Contraseña actualizada con éxito! Redirigiendo a inicio de sesión...';
+        successDiv.style.display = 'block';
+
+        // Redirigir a login después de 3 segundos
+        setTimeout(() => {
+          window.location.href = '/pages/login.html';
+        }, 3000);
+
+      } catch (error) {
+        console.error('Error al resetear:', error.message);
+        errorDiv.textContent = 'Error: ' + error.message;
+        errorDiv.style.display = 'block';
+        submitButton.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>

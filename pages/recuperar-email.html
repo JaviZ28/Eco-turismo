@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Recuperar Email — Rutas Eco-Comunitarias</title>
+  <link rel="stylesheet" href="/src/styles.css">
+  
+  <script>
+    (function() {
+      const contrasteGuardado = localStorage.getItem('contrasteAlto');
+      if (contrasteGuardado === 'true') {
+        document.documentElement.setAttribute('data-contraste', 'alto');
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <header class="cabecera">
+    <div class="cabecera__izq">
+      <img src="/src/logo-placeholder.svg" alt="Logo Plataforma" class="logo">
+      <h1 class="nombre-sistema">Rutas Eco-Comunitarias</h1>
+    </div>
+
+    <nav class="menu-horizontal" aria-label="Menú principal">
+      <ul id="menuItems" class="menu__lista--horizontal">
+        <li><a href="/index.html" class="menu__item" data-i18n="nav.inicio">Inicio</a></li>
+        <li><a href="/pages/rutas.html" class="menu__item" data-i18n="nav.rutas">Rutas</a></li>
+        <li><a href="/pages/novedades.html" class="menu__item" data-i18n="nav.novedades">Novedades</a></li>
+        <li><a href="/pages/ayuda.html" class="menu__item" data-i18n="nav.ayuda">Ayuda</a></li>
+        <li><a href="#" class="menu__item" id="abrir-accesibilidad" data-i18n="nav.accesibilidad">Accesibilidad</a></li>
+      </ul>
+    </nav>
+
+    <div class="cabecera__der">
+      <button class="boton" id="boton-idioma">🌐 ES</button>
+      <a href="/pages/login.html" class="boton" data-i18n="btn.iniciar-sesion">Iniciar Sesion</a>
+      <button id="boton-accesibilidad" class="boton" data-i18n="btn.modo-oscuro">Modo oscuro</button>
+    </div>
+  </header>
+
+  <main class="contenido">
+    <div class="auth-container">
+      <form id="form-recuperar-email" class="auth-form">
+        <h2 class="auth-titulo">Recuperar Email</h2>
+        <p class="auth-descripcion">Ingresa tu número de teléfono registrado para encontrar tu email.</p>
+        
+        <div id="auth-error" class="auth-error" style="display: none;"></div>
+        <div id="auth-success" class="auth-success" style="display: none;"></div>
+
+        <div class="formulario-grupo">
+          <label for="telefono">Número de Teléfono</label>
+          <input type="tel" id="telefono" name="telefono" required autocomplete="tel" placeholder="Ej: 0991234567">
+        </div>
+        
+        <button type="submit" class="boton primario" style="width: 100%;">Buscar Email</button>
+        
+        <p class="auth-enlace">
+          <a href="/pages/login.html">Volver a Iniciar Sesión</a>
+        </p>
+      </form>
+    </div>
+  </main>
+
+  <footer class="pie">
+    <small>© <span id="ano"></span> <span data-i18n="footer.derechos">Rutas Eco-Comunitarias</span></small>
+  </footer>
+  
+  <div id="modal-accesibilidad" class="modal" role="dialog" aria-labelledby="modal-accesibilidad-titulo" aria-hidden="true">
+    </div>
+
+  <script type="module">
+    import { inicializarTema, actualizarAnio, inicializarMenu } from "/src/scripts/comunes.ts";
+    import { inicializarIdiomas, inicializarAccesibilidad } from "/src/scripts/idiomas.js";
+    import { supabase } from "/src/services/supabase.js";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      inicializarTema();
+      actualizarAnio();
+      inicializarMenu();
+      inicializarIdiomas();
+      inicializarAccesibilidad();
+      
+      document.getElementById('form-recuperar-email').addEventListener('submit', handleRecuperarEmail);
+    });
+
+    async function handleRecuperarEmail(e) {
+      e.preventDefault();
+      const errorDiv = document.getElementById('auth-error');
+      const successDiv = document.getElementById('auth-success');
+      const submitButton = e.target.querySelector('button[type="submit"]');
+      const telefono = document.getElementById('telefono').value;
+
+      errorDiv.style.display = 'none';
+      successDiv.style.display = 'none';
+      submitButton.disabled = true;
+
+      try {
+        // Buscamos en la tabla 'usuarios_perfiles' por el teléfono
+        const { data, error } = await supabase
+          .from('usuarios_perfiles')
+          .select('id') // Seleccionamos solo el ID (o email)
+          .eq('telefono', telefono);
+
+        if (error) {
+          throw error;
+        }
+
+        if (data && data.length > 0) {
+          // ¡Éxito! Se encontró al menos un usuario.
+          // Por ahora, solo confirmamos que existe.
+          // En una app real, aquí se enviaría un SMS.
+          successDiv.textContent = 'Hemos encontrado una cuenta asociada a ese número. Se ha enviado un recordatorio a tu teléfono (Simulación).';
+          successDiv.style.display = 'block';
+        } else {
+          // No se encontró el teléfono
+          errorDiv.textContent = 'No se encontró ninguna cuenta con ese número de teléfono.';
+          errorDiv.style.display = 'block';
+        }
+
+      } catch (error) {
+        console.error('Error al buscar por teléfono:', error.message);
+        errorDiv.textContent = 'Error: ' + error.message;
+        errorDiv.style.display = 'block';
+      } finally {
+        submitButton.disabled = false; // Reactivar el botón
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mi Perfil — Rutas Eco-Comunitarias</title>
+  <link rel="stylesheet" href="/src/styles.css">
+  
+  <script>
+    (function() {
+      const contrasteGuardado = localStorage.getItem('contrasteAlto');
+      if (contrasteGuardado === 'true') {
+        document.documentElement.setAttribute('data-contraste', 'alto');
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <header class="cabecera">
+    <div class="cabecera__izq">
+      <img src="/src/logo-placeholder.svg" alt="Logo Plataforma" class="logo">
+      <h1 class="nombre-sistema">Rutas Eco-Comunitarias</h1>
+    </div>
+
+    <nav class="menu-horizontal" aria-label="Menú principal">
+      <ul id="menuItems" class="menu__lista--horizontal">
+        <li><a href="/index.html" class="menu__item" data-i18n="nav.inicio">Inicio</a></li>
+        <li><a href="/pages/rutas.html" class="menu__item" data-i18n="nav.rutas">Rutas</a></li>
+        <li><a href="/pages/novedades.html" class="menu__item" data-i18n="nav.novedades">Novedades</a></li>
+        <li><a href="/pages/ayuda.html" class="menu__item" data-i18n="nav.ayuda">Ayuda</a></li>
+        <li><a href="#" class="menu__item" id="abrir-accesibilidad" data-i18n="nav.accesibilidad">Accesibilidad</a></li>
+      </ul>
+    </nav>
+
+    <div class="cabecera__der">
+      <button class="boton" id="boton-idioma">🌐 ES</button>
+      <button class="boton secundario" id="boton-logout">Cerrar Sesión</button>
+      <button id="boton-accesibilidad" class="boton" data-i18n="btn.modo-oscuro">Modo oscuro</button>
+    </div>
+  </header>
+
+  <main class="contenido">
+    <div class="perfil-container">
+      <h2 class="auth-titulo">Mi Perfil</h2>
+      
+      <div id="auth-error" class="auth-error" style="display: none;"></div>
+      <div id="auth-success" class="auth-success" style="display: none;"></div>
+
+      <section class="perfil-seccion">
+        <h3>Datos Personales</h3>
+        <form id="form-perfil" class="auth-form">
+          <div class="formulario-grupo">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" disabled>
+            <small>El email no se puede cambiar.</small>
+          </div>
+          
+          <div class="formulario-grupo">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" required autocomplete="given-name">
+          </div>
+
+          <div class="formulario-grupo">
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" name="apellido" required autocomplete="family-name">
+          </div>
+
+          <div class="formulario-grupo">
+            <label for="telefono">Teléfono (Opcional)</label>
+            <input type="tel" id="telefono" name="telefono" autocomplete="tel">
+          </div>
+          
+          <button type-"submit" class="boton primario">Guardar Cambios</button>
+        </form>
+      </section>
+
+      <section class="perfil-seccion">
+        <h3>Cambiar Contraseña</h3>
+        <form id="form-password" class="auth-form">
+          <div class="formulario-grupo">
+            <label for="new_password">Nueva Contraseña</label>
+            <input type="password" id="new_password" name="new_password" required autocomplete="new-password" minlength="6" placeholder="contraseña">
+          </div>
+          <button type="submit" class="boton secundario">Actualizar Contraseña</button>
+        </form>
+      </section>
+      
+    </div>
+  </main>
+
+  <footer class="pie">
+    <small>© <span id="ano"></span> <span data-i18n="footer.derechos">Rutas Eco-Comunitarias</span></small>
+  </footer>
+  
+  <div id="modal-accesibilidad" class="modal" role="dialog" aria-labelledby="modal-accesibilidad-titulo" aria-hidden="true">
+    </div>
+
+  <script type="module">
+    import { inicializarTema, actualizarAnio, inicializarMenu } from "/src/scripts/comunes.ts";
+    import { inicializarIdiomas, inicializarAccesibilidad } from "/src/scripts/idiomas.js";
+    import { supabase } from "/src/services/supabase.js";
+
+    const errorDiv = document.getElementById('auth-error');
+    const successDiv = document.getElementById('auth-success');
+    let currentUserId = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      inicializarTema();
+      actualizarAnio();
+      inicializarMenu();
+      inicializarIdiomas();
+      inicializarAccesibilidad();
+      
+      cargarPerfil();
+      
+      document.getElementById('form-perfil').addEventListener('submit', handleUpdatePerfil);
+      document.getElementById('form-password').addEventListener('submit', handleUpdatePassword);
+      document.getElementById('boton-logout').addEventListener('click', handleLogout);
+    });
+
+    async function cargarPerfil() {
+      try {
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+        if (authError || !user) {
+          throw new Error('No estás autenticado.');
+        }
+        
+        currentUserId = user.id; // Guardar el ID del usuario
+        document.getElementById('email').value = user.email;
+
+        // Cargar datos desde la tabla 'usuarios_perfiles'
+        const { data: profile, error: profileError } = await supabase
+          .from('usuarios_perfiles')
+          .select('nombre, apellido, telefono')
+          .eq('id', user.id)
+          .single(); // Esperamos un solo resultado
+
+        if (profileError) {
+          // Manejar el caso donde el perfil aún no existe (aunque el registro ya deberia crearlo)
+          if (profileError.code === 'PGRST116') {
+             console.warn('El perfil de usuario no existe en la tabla pública, pero el usuario está autenticado.');
+             // El usuario puede llenar los campos y se crearán al guardar.
+          } else {
+            throw profileError;
+          }
+        }
+
+        // Rellenar campos si el perfil existe
+        if (profile) {
+          document.getElementById('nombre').value = profile.nombre || '';
+          document.getElementById('apellido').value = profile.apellido || '';
+          document.getElementById('telefono').value = profile.telefono || '';
+        }
+
+      } catch (error) {
+        // Si no hay usuario, redirigir a login
+        console.warn(error.message);
+        window.location.href = '/pages/login.html';
+      }
+    }
+
+    async function handleUpdatePerfil(e) {
+      e.preventDefault();
+      mostrarMensaje('', 'success'); // Limpiar mensajes
+
+      if (!currentUserId) {
+        mostrarMensaje('Error: No se pudo identificar al usuario.', 'error');
+        return;
+      }
+
+      const nombre = document.getElementById('nombre').value;
+      const apellido = document.getElementById('apellido').value;
+      const telefono = document.getElementById('telefono').value;
+      
+      try {
+        // Actualizar la tabla 'usuarios_perfiles'
+        const { error } = await supabase
+          .from('usuarios_perfiles')
+          .update({
+            nombre: nombre,
+            apellido: apellido,
+            telefono: telefono
+          })
+          .eq('id', currentUserId); // Asegura que solo actualice su propio perfil
+
+        if (error) throw error;
+        
+        mostrarMensaje('¡Perfil actualizado con éxito!', 'success');
+      } catch (error) {
+        mostrarMensaje('Error: ' + error.message, 'error');
+      }
+    }
+
+    async function handleUpdatePassword(e) {
+      e.preventDefault();
+      mostrarMensaje('', 'success'); // Limpiar mensajes
+      
+      const new_password = document.getElementById('new_password').value;
+
+      try {
+        const { data, error } = await supabase.auth.updateUser({
+          password: new_password
+        });
+
+        if (error) throw error;
+
+        mostrarMensaje('¡Contraseña actualizada con éxito!', 'success');
+        e.target.reset(); // Limpiar campo de contraseña
+      } catch (error) {
+        mostrarMensaje('Error: ' + error.message, 'error');
+      }
+    }
+
+    async function handleLogout() {
+      try {
+        const { error } = await supabase.auth.signOut();
+        if (error) throw error;
+        // Redirigir al inicio
+        window.location.href = '/index.html';
+      } catch (error) {
+        mostrarMensaje('Error: ' + error.message, 'error');
+      }
+    }
+    
+    function mostrarMensaje(texto, tipo = 'error') {
+      if (tipo === 'error') {
+        errorDiv.textContent = texto;
+        errorDiv.style.display = texto ? 'block' : 'none';
+        successDiv.style.display = 'none';
+      } else {
+        successDiv.textContent = texto;
+        successDiv.style.display = texto ? 'block' : 'none';
+        errorDiv.style.display = 'none';
+      }
+    }
+  </script>
+</body>
+</html>

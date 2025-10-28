@@ -2013,3 +2013,219 @@ button { font-family: inherit; cursor: pointer; }
 /* ---------------------------------------------------------
    FIN DEL ARCHIVO
    --------------------------------------------------------- */
+/* ...existing code... */
+/* =========================================================
+   🔑 ESTILOS PARA PÁGINAS DE AUTENTICACIÓN Y PERFIL
+   ========================================================= */
+
+/* Contenedor centrado para login y registro */
+.auth-container {
+  max-width: 480px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+:root[data-contraste="alto"] .auth-container {
+  border-color: rgba(255,255,255,0.1);
+}
+
+.auth-titulo {
+  text-align: center;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.75rem;
+  color: var(--text);
+}
+
+.auth-descripcion {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--muted);
+}
+
+.auth-form .formulario-grupo {
+  margin-bottom: 1.5rem;
+}
+
+.auth-form .formulario-grupo label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.auth-form .formulario-grupo input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid rgba(0,0,0,0.08);
+  border-radius: 8px;
+  background: var(--bg);
+  font-size: 1rem;
+  color: var(--text);
+}
+
+:root[data-contraste="alto"] .auth-form .formulario-grupo input {
+  background: var(--bg);
+  border-color: rgba(255,255,255,0.1);
+  color: var(--text);
+}
+
+.auth-form .formulario-grupo input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(42, 122, 95, 0.1);
+}
+
+.auth-enlace {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.auth-enlace a {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+/* Mensajes de error/éxito */
+.auth-error, .auth-success {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.auth-error {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  border: 1px solid #dc2626;
+}
+
+.auth-success {
+  background: rgba(34, 197, 94, 0.1);
+  color: #16a34a;
+  border: 1px solid #16a34a;
+}
+
+/* Contenedor de Perfil */
+.perfil-container {
+  max-width: 800px;
+  margin: 4rem auto;
+}
+
+.perfil-seccion {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+:root[data-contraste="alto"] .perfil-seccion {
+  border-color: rgba(255,255,255,0.1);
+}
+
+.perfil-seccion h3 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding-bottom: 1rem;
+}
+
+:root[data-contraste="alto"] .perfil-seccion h3 {
+  border-bottom-color: rgba(255,255,255,0.1);
+}
+
+.perfil-seccion .formulario-grupo small {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.perfil-seccion .formulario-grupo input:disabled {
+  background: rgba(0,0,0,0.05);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+:root[data-contraste="alto"] .perfil-seccion .formulario-grupo input:disabled {
+  background: rgba(255,255,255,0.05);
+}
+
+/* ... (después de .auth-enlace) ... */
+
+/* ... (dentro de la sección de autenticación) ... */
+
+.auth-enlace-secundario {
+  display: flex; /* <-- NUEVO */
+  justify-content: space-between; /* <-- NUEVO */
+  flex-wrap: wrap; /* <-- NUEVO */
+  margin-top: -0.75rem; 
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+.auth-enlace-secundario a {
+  color: var(--muted);
+  text-decoration: underline;
+}
+.auth-enlace-secundario a:hover {
+  color: var(--primary);
+}
+
+/* Contenedor para el input con icono */
+.input-con-icono {
+  position: relative;
+}
+
+/* Dejar espacio a la derecha en el input para el icono */
+
+/* ... (después de .auth-enlace-secundario) ... */
+
+/* Contenedor para el input con icono */
+.input-con-icono {
+  position: relative;
+}
+
+/* Dejar espacio a la derecha en el input para el icono */
+.input-con-icono input {
+  padding-right: 3.5rem !important; 
+}
+
+/* Estilo del botón de mostrar/ocultar */
+.toggle-password {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.toggle-password:hover {
+  color: var(--text);
+  background: rgba(0,0,0,0.05);
+}
+
+:root[data-contraste="alto"] .toggle-password:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Anulación de foco para que se vea bien */
+.toggle-password:focus {
+   outline: 2px solid var(--primary);
+   outline-offset: 1px;
+}

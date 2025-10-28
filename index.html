@@ -38,7 +38,7 @@
 
     <div class="cabecera__der">
       <button class="boton" id="boton-idioma">🌐 ES</button>
-      <button class="boton" data-i18n="btn.iniciar-sesion">Iniciar Sesion</button>
+      <a href="/pages/login.html" class="boton" data-i18n="btn.iniciar-sesion">Iniciar Sesion</a>
       <button id="boton-accesibilidad" class="boton" data-i18n="btn.modo-oscuro">Modo oscuro</button>
     </div>
   </header>
@@ -77,14 +77,13 @@
   <!-- PIE DE PÁGINA -->
   <footer class="pie" role="contentinfo">
     <div>
-      <p><strong data-i18n="footer.institucion">Institución:</strong> <span data-i18n="footer.proyecto">Proyecto Comunitario</span></p>
       <p>
-        <a href="#" id="link-soporte" data-i18n="footer.soporte">Soporte / Contacto</a> |
-        <a href="#" id="link-terminos" data-i18n="footer.terminos">Términos y uso</a>
-      </p>
+        <a href="/pages/ayuda.html" id="link-soporte" data-i18n="footer.soporte">Soporte / Contacto</a> |
+        <a href="/pages/terminos.html" target="_blank" rel="noopener noreferrer">Términos y Privacidad</a>
+        </p>
     </div>
     <div>
-      <small>© <span id="ano">2025</span> <span data-i18n="footer.derechos">Rutas Eco-Comunitarias</span></small>
+      <small>© <span id="ano"></span> <span data-i18n="footer.derechos">Rutas Eco-Comunitarias</span></small>
     </div>
   </footer>
     <!-- Modal de Accesibilidad -->

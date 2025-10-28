@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Términos y Política de Privacidad — Rutas Eco-Comunitarias</title>
+  <link rel="stylesheet" href="/src/styles.css">
+  
+  <script>
+    (function() {
+      const contrasteGuardado = localStorage.getItem('contrasteAlto');
+      if (contrasteGuardado === 'true') {
+        document.documentElement.setAttribute('data-contraste', 'alto');
+      }
+    })();
+  </script>
+  <style>
+    /* Estilos básicos para el contenido de términos */
+    .terminos-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+    :root[data-contraste="alto"] .terminos-container {
+      border-color: rgba(255,255,255,0.1);
+    }
+    .terminos-container h1 {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      padding-bottom: 1rem;
+    }
+    :root[data-contraste="alto"] .terminos-container h1 {
+       border-bottom-color: rgba(255,255,255,0.1);
+    }
+    .terminos-container h2 {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+    .terminos-container p {
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="cabecera">
+    <div class="cabecera__izq">
+      <img src="/src/logo-placeholder.svg" alt="Logo Plataforma" class="logo">
+      <h1 class="nombre-sistema">Rutas Eco-Comunitarias</h1>
+    </div>
+    <div class="cabecera__der">
+        <a href="/index.html" class="boton">Volver al Inicio</a>
+    </div>
+  </header>
+
+  <main class="contenido">
+    <div class="terminos-container">
+      <h1>Términos de Uso y Política de Privacidad</h1>
+
+      <h2>Términos de Uso</h2>
+      <p>Bienvenido/a a Rutas Eco-Comunitarias. Al utilizar nuestro sitio web, aceptas cumplir con los siguientes términos y condiciones...</p>
+      <p>[texto de tus términos de uso]</p>
+      
+      <h3>1. Uso Aceptable</h3>
+      <p>Te comprometes a utilizar la plataforma de manera responsable...</p>
+
+      <h3>2. Contenido del Usuario</h3>
+      <p>Si contribuyes con contenido (rutas, comentarios), eres responsable de él...</p>
+
+      <h2>Política de Privacidad</h2>
+      <p>Nos tomamos tu privacidad muy en serio. Esta política describe qué datos recopilamos y cómo los usamos...</p>
+      <p>[texto de privacidad]</p>
+
+      <h3>1. Información Recopilada</h3>
+      <p>Recopilamos la información que nos proporcionas al registrarte (nombre, email, teléfono opcional)...</p>
+
+      <h3>2. Uso de la Información</h3>
+      <p>Utilizamos tu información para...</p>
+
+      <h3>3. Cookies</h3>
+      <p>Utilizamos cookies para...</p>
+
+      <h3>4. Tus Derechos</h3>
+      <p>Tienes derecho a acceder, rectificar o eliminar tu información personal...</p>
+
+      <h2>Contacto</h2>
+      <p>Si tienes alguna pregunta sobre estos términos o la política de privacidad, contáctanos en [Tu Email de Contacto].</p>
+
+      <p><em>Última actualización: 27 de Octubre de 2025</em></p>
+    </div>
+  </main>
+
+  <footer class="pie">
+    <small>© <span id="ano"></span> <span data-i18n="footer.derechos">Rutas Eco-Comunitarias</span></small>
+  </footer>
+
+  <script type="module">
+    // Script básico para actualizar el año en el pie de página
+    import { actualizarAnio } from "/src/scripts/comunes.ts";
+    document.addEventListener("DOMContentLoaded", () => {
+      actualizarAnio();
+      // Aplica tema si es necesario
+      const contrasteGuardado = localStorage.getItem('contrasteAlto');
+      if (contrasteGuardado === 'true') {
+        document.documentElement.setAttribute('data-contraste', 'alto');
+      }
+    });
+  </script>
+</body>
+</html>
